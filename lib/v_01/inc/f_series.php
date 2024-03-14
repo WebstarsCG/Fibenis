@@ -1683,9 +1683,9 @@
 						//
 						if($value['type']=='hms'){
 							
-							$key_csv.='IFNULL(date_format('.@$value['field_id'].',\'%h\'),0) as '.'X'.@$key.'_1,';
-							$key_csv.='IFNULL(date_format('.@$value['field_id'].',\'%i\'),0) as '.'X'.@$key.'_2,';
-							$key_csv.='IFNULL(date_format('.@$value['field_id'].',\'%p\'),0) as '.'X'.@$key.'_3,';
+							$key_csv.='IFNULL(time_format('.$temp_query.',\'%h\'),0) as '.'X'.@$key.'_1,';
+							$key_csv.='IFNULL(time_format('.$temp_query.',\'%i\'),0) as '.'X'.@$key.'_2,';
+							$key_csv.='IFNULL(time_format('.$temp_query.',\'%p\'),0) as '.'X'.@$key.'_3,';
 						}
 						
 						#auto complete
