@@ -45,7 +45,7 @@
 	
 		$COACH['domain_name']	=   (get_config('is_multiple')==1)?str_replace("www.","",$_SERVER['HTTP_HOST']):'default';
 		 
-		if(!isset($_SESSION['COACH_ID_'.$COACH['domain_name']])){
+		if(!@$_SESSION['COACH_ID_'.$COACH['domain_name']]){
 		    
 		    list($COACH['id'],
 			 $COACH['name']) =    explode('[C]',$G->get_one_cell(['table'        => 'entity_child',
