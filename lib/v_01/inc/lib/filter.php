@@ -130,7 +130,7 @@
 		};
 
 		$FILTER['timestamp_to_dbyt'] = function($data_in){
-			return date("d-M-y H:i:s",$data_in);
+			return date_format(date_create($data_in),'d-M-y H:i:s');
 		}
 		
 		
