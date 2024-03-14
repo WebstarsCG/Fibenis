@@ -46,12 +46,14 @@
 				
 				'gx'=>1, 
 
-				'is_cc'=>1
+				'is_cc'=>1,
+
+				'show_query'=>0
 			);
     
 			if(isset($_GET['default_addon'])){
 			
-				list($default_addon,$parent_id) = explode(':',@$_GET['default_addon']);
+				list($default_addon,$parent_id) = (strpos(@$_GET['default_addon'],':'))?explode(':',@$_GET['default_addon']):[@$_GET['default_addon'],0];
 				
 				if($default_addon){													
 									
