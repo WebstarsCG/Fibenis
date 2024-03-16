@@ -53,7 +53,7 @@
                                 
 				'flat_message'	=> 'Successfully Added',
 				
-				'show_query'  => 1,
+				'show_query'  => 0,
 				
 				'after_add_update' =>1,
 				
@@ -94,7 +94,7 @@
 																				
 																				$entity->code=$entity->code.'';
 																				$entity->name=$entity->name.'';
-																				echo $entity->write_mode=$entity->write_mode.'';
+																				$entity->write_mode=$entity->write_mode.'';
 																		
 																		
 								
@@ -103,8 +103,6 @@
 								// remove existing
 																
 									if($entity->write_mode!='A'){		
-									
-									echo "------------".$entity->write_mode;
 									 
 									$rdsql->exec_query("DELETE from entity_child WHERE entity_code='".$entity->code."'",'Remove entity_child');
 									$rdsql->exec_query("DELETE from entity_child_base WHERE entity_code='".$entity->code."'",'Remove entity_child_bae');
@@ -119,7 +117,7 @@
 																				array_push($lv['entity'],$USER_ID);
 																				
 																				$rdsql->exec_query("INSERT INTO entity(code,sn,is_lib,user_id)
-																				VALUES(".implode($lv['entity'],',').")",'insert entity');
+																				VALUES(".implode(',',$lv['entity']).")",'insert entity');
 																				
 									}
 																				
