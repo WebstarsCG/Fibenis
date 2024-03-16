@@ -3,7 +3,7 @@
     $LAYOUT	    = 'layout_basic';
     
     $F_SERIES	=	array(
-				'title'	=>'EAV DB',
+				'title'	=>'ECB Import',
 				
                                 'table_name'    => 'entity_child_base',
 				
@@ -118,7 +118,7 @@
 											array_push($lv['entity'],0);
 											array_push($lv['entity'],$USER_ID);
 											
-										$rdsql->exec_query("INSERT INTO entity(code,sn,is_lib,user_id) VALUES(".implode($lv['entity'],',').")",'insert entity');
+										$rdsql->exec_query("INSERT INTO entity(code,sn,is_lib,user_id) VALUES(".implode(',',$lv['entity']).")",'insert entity child base');
 								
 										}
 								
@@ -133,7 +133,11 @@
 													
 													$lv['ecb_attr']=(array)$ecb;  
 													$lv['ecb_values'] = array_values($lv['ecb_attr']);
-													$lv['ecb_attr_values']=implode(",",array_map(function($val){return sprintf("'%s'", $val);},$lv['ecb_values']));
+													$lv['ecb_attr_values']=implode(",",array_map(function($val){ global $rdsql;
+																									return sprintf("'%s'",$rdsql->escape_string($val));},
+																									
+																								$lv['ecb_values'])
+																					);
 												//	print_r($lv['ecb_attr_values']);
 
 													$lv['query_value_text']='';
