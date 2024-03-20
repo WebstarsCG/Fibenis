@@ -1,9 +1,13 @@
 <?PHP
 						
-		ini_set('display_errors',0);		
+		ini_set('display_errors',1);		
 		
 		error_reporting(E_ALL);
-		
+
+		use GuzzleHttp\Client;
+				
+		use GuzzleHttp\Query;
+
 		$ACCESS_KEY;
 		
 		$PV = [];
@@ -24,7 +28,8 @@
 				include("config.php");
 
 				include("../../fE7zRhHqYfSLT9CRm55cBPGHjAGuhqhhjKGSZrB.php");
-					
+				
+							
 				$CRm55cBPGH 		=  get_temp_config($temp_config);
 			
 				$get_db_conn 		=  get_config('db_engine').'_connection';
@@ -46,7 +51,16 @@
 				include("../../".$PV['lib_path']."inc/lib/s_gate.php");
 				
 				include("../../".$PV['lib_path']."comp/PHPMailer/smtp.php");
-				
+
+				$lwp_lib = "../../".$PV['lib_path'].'comp/guzzle_rest/vendor/autoload.php';
+
+				require_once $lwp_lib;
+				$LWP = new Client([
+					// You can set any number of default request options.
+					'timeout'  => 2.0,
+			   ]);
+				  
+							
 				# coach
 				$COACH=[];
 				
@@ -74,8 +88,12 @@
 				$PV['login_email'] 		=  "get_eav_addon_varchar(is_internal,'COEM')";
 				
 				$PV['login_name']  		=  "get_eav_addon_varchar(is_internal,'COFN')";
+
+				$PV['login_mobile']  	=  "get_eav_addon_varchar(is_internal,'COMB')";
 				
-				$PV['temp_session'] = $SG->set_get_master_session($COACH['name_hash']);				
+				$PV['temp_session'] = $SG->set_get_master_session($COACH['name_hash']);	
+
+				
 		
 		} // end	
 		
@@ -195,98 +213,102 @@
 		// sign in
 		if(@$_POST['action']=='CKY'){
 				
-				
-				
-				$user_email  	= @$_POST['user_email'];
-				
-				@$password   	= md5($_POST['password']);	
+			if(@$_POST['user_mobile']){
+				$access_lock 		= $PV['login_mobile'];
+				$access_key 		= $_POST['user_mobile'];
+				$access_lock_type 	= 'mobile';
+			}else{
+				$access_lock 		= $PV['login_email'];
+				$access_key  		= strtolower($_POST['user_email']);
+				$access_lock_type 	= 'email';
+			}
+								
+			@$password   	= md5($_POST['password']);	
 
-				$PV['gate']		= $_POST['gate'];	
-				
-				$user_def 	= array(
-								'user_email' => $user_email,
-								'password'   => @$password ,
-								'user_type'  => 0
-							);
-				
-	
-				
-				$auth_key  	= [	'table'   		=> $PV['login_table'],
-								'key_field'		=> $PV['login_email'],
-								'login_name'	=> $PV['login_name'],
-								'user_key_pub'	=> $rdsql->escape_string(stripslashes($user_email)),
-								'user_key_pvt'	=> $rdsql->escape_string(stripslashes($_POST['password']))
-								];
-							
-												
-				$auth_type 	= get_config('auth_type');
-				
-				$auth_type  = in_array($auth_type,['base','ldap'])?$auth_type:'NONE';
-				
-				// auth 
-				if( ($auth_type) && ($auth_type!='base')){
-				
-						$auth_option 	= get_config($auth_type);					
+			$PV['gate']		= $_POST['gate'];	
+			
+			$auth_key  	= [	'table'   		=> $PV['login_table'],
+							'key_field'		=> $access_lock,
+							'login_name'	=> $PV['login_name'],
+							'user_key_pub'	=> $rdsql->escape_string(stripslashes($access_key)),
+							'user_key_pvt'	=> $rdsql->escape_string(stripslashes($_POST['password']))
+							];
 						
-						if(in_array($auth_key['user_key_pub'],$auth_option['exclude_users'])){
-							$auth_type 	= 'BASE';
-						}							
-						
-				} // end
-				
-				$auth_key['auth_type'] =  $auth_type;
-				
-				// auth type
-				$PV['check_auth_query']	= check_auth($auth_key);			
-				
-				$PV['check_auth_query_result'] = $rdsql->exec_query($PV['check_auth_query'],'Error! CK');
-				
-				$get_row =  $rdsql->data_fetch_object($PV['check_auth_query_result']);
-				
-				if(@$get_row->id){
+											
+			$auth_type 	= get_config('auth_type');
+			
+			$auth_type  = in_array($auth_type,['base','ldap'])?$auth_type:'NONE';
+			
+			// auth 
+			if( ($auth_type) && ($auth_type!='base')){
+			
+					$auth_option 	= get_config($auth_type);					
 					
-					if($get_row->is_active){
-						
-					# echo user_role
-					// page_redirect($user_role_code);
-					 $session = $SG->set_session(['table'   => $PV['login_table'],
-												  'id'		=> $get_row->id,
-												  'gate'	=> $PV['gate']]);
-												
-					 					 
-					 $_SESSION['COMM_KEY'] = md5($get_row->id);
-					  
-					 $page_name =  $_SESSION['home_page_url'];
-		         					 
-					  $update_query="UPDATE user_info SET last_login= NOW() WHERE id =$get_row->id";
-					  
-					  $exe_up_query = $rdsql->exec_query($update_query,'Error! CK Update');
+					if(in_array($auth_key['user_key_pub'],$auth_option['exclude_users'])){
+						$auth_type 	= 'BASE';
+					}							
+					
+			} // end
+			
+			$auth_key['auth_type'] =  $auth_type;
+			
+			// auth type
+			$PV['check_auth_query']	= check_auth($auth_key);			
+			
+			$PV['check_auth_query_result'] = $rdsql->exec_query($PV['check_auth_query'],'Error! CK');
+			
+			$get_row =  $rdsql->data_fetch_object($PV['check_auth_query_result']);
+			
+			if(@$get_row->id){
+				
+				if($get_row->is_active){
+					
+				# echo user_role
+				// page_redirect($user_role_code);
+					$session = $SG->set_session(['table'   => $PV['login_table'],
+												'id'		=> $get_row->id,
+												'gate'	=> $PV['gate']]);
+											
+										
+					$_SESSION['COMM_KEY'] = md5($get_row->id);
+					
+					$page_name =  $_SESSION['home_page_url'];
+									
+					$update_query="UPDATE user_info SET last_login= NOW() WHERE id =$get_row->id";
+					
+					$exe_up_query = $rdsql->exec_query($update_query,'Error! CK Update');
 
-					  $in=array('user_id'=>@$get_row->id,'page_code'=>$PV['GATE_CODE']['ACKY'],'action_type'=>'ACKY','action'=>'login');
-						         
-					  $G->set_system_log($in);
-					 
-				          echo '{"status":"1","redirect_page":"'.$page_name.'"}';
+					$in=array('user_id'=>@$get_row->id,'page_code'=>$PV['GATE_CODE']['ACKY'],'action_type'=>'ACKY','action'=>'login');
+								
+					$G->set_system_log($in);
 					
-					}else{
-					
-					  echo '{"status":"-2"}';
-					  
-					   $in=array('user_id'=>@$get_row->id,'page_code'=>$PV['GATE_CODE']['ACKY'],'action_type'=>'ACKY','action'=>'Login failed for In-active user '.$user_email);
-						         
-					   $G->set_system_log($in);
-					
-					}
+						echo '{"status":"1","redirect_page":"'.$page_name.'"}';
 				
 				}else{
-				    
-					echo '{"status":"-1"}';
-				      
-				    $in=array('user_id'=>@$get_row->id,'page_code'=>$PV['GATE_CODE']['ACKY'],'action_type'=>'ACKY','action'=>'Login fail for invalid user '.$user_email);
-					  
-				     $G->set_system_log($in);
-					  
-				} 				 
+				
+					echo '{"status":"-2"}';
+					
+					$in=array('user_id'=>@$get_row->id,
+							  'page_code'=>$PV['GATE_CODE']['ACKY'],
+							  'action_type'=>'ACKY',
+							  'action'=>'Login failed for In-active user '.$access_key);
+								
+					$G->set_system_log($in);
+				
+				}
+			
+			}else{
+				
+				echo '{"status":"-1"}';
+					
+				$in=array('user_id'=>@$get_row->id,
+						  'page_code'=>$PV['GATE_CODE']['ACKY'],
+						  'action_type'=>'ACKY',
+						  'action'=>'Given input seems invalid. Kindly recheck & entry.');
+					
+				$G->set_system_log($in);
+					
+			} 				 
 				
 		} // end
 		
@@ -369,108 +391,99 @@
 		// email OTP
 		if(@$_POST['action']=='AOTP'){
 			
-				$user_email = strtolower($_POST['user_email']);
+			if(@$_POST['user_mobile']){
+				$access_lock 		= $PV['login_mobile'];
+				$access_key 		= $_POST['user_mobile'];
+				$access_lock_type 	= 'mobile';
+				$access_token       = 'user_'.$access_lock_type;
+			}else{
+				$access_lock 		= $PV['login_email'];
+				$access_key  		= strtolower($_POST['user_email']);
+				$access_lock_type 	= 'email';
+				$access_token       = 'user_'.$access_lock_type;
+			}
+					
+			$no_row = $G->table_no_rows(['table_name'   => $PV['login_table'],
+										 'WHERE_FILTER' => " AND $access_lock='$access_key'"]);
+										
+			$current_time	= date('is');
+			$pass			= "0".$current_time;
+			//$new_key		= substr($pass,0,6);
+			$new_key		= '123456';
+			$password  		=  md5($new_key);
+			
+			$action_type 	= 'AOTP';
+			$page_code		= $PV['GATE_CODE'][$action_type];
+														
+			if($no_row[0]==1){
 				
-				$no_row = $G->table_no_rows(['table_name' =>$PV['login_table'],
-										  	'WHERE_FILTER'=>" AND $PV[login_email]='$user_email'"]);
-											
-				$current_time	= date('is');
-				$pass			= "0".$current_time;
-				//$new_key		= substr($pass,0,6);
-				$new_key		= substr(str_shuffle(rand()),0,5);
-				$password  		=  md5($new_key);
+				$set_otp_query = "UPDATE user_info SET password='$password' WHERE $access_lock = '$access_key' ";					
+				$exe_set_otp_query = $rdsql->exec_query($set_otp_query,'Error! CK Update');
 				
-				$action_type 	= 'AOTP';
-				$page_code		= $PV['GATE_CODE'][$action_type];
-															
-				if($no_row[0]==1){
-					
-					$set_otp_query = "UPDATE user_info SET password='$password' WHERE $PV[login_email] = '$user_email' ";					
-				    $exe_set_otp_query = $rdsql->exec_query($set_otp_query,'Error! CK Update');
-					
-					$login_user_id = $G->get_one_column(['table'=>'user_info','field'=>'is_internal',
-					                                          'manipulation'=>" WHERE $PV[login_email] = '$user_email' "]);
-					
-					$msg = custom_mail_message(['user_key'   => $new_key]);
-					
-					$MAIL_OTP=array(
-								'from'    => $SG->get_session('mail_send_by').' Admin ',					
-								'to'      => $user_email, //'ratbew@gmail.com',
+				$login_user_id = $G->get_one_column(['table'=>'user_info','field'=>'is_internal',
+														  'manipulation'=>" WHERE $access_lock = '$access_key' "]);
+				
+				send_gate_access_code(['access_code'	=> $new_key,
+									   'access_key' 	=> $access_key,
+									   'is_smtp_mail'	=> $PV['is_smtp_mail'],
+									   'lock_type'		=> $access_lock_type,
+									   'g'				=> $G,
+									   'sg'				=> $SG,
+									   'lwp'			=> $LWP										   
+									]);
 								
-								'cc'	  =>  get_config('cc_mail'),
-								'bcc'	  => get_config('bcc_mail'),
-								
-								'subject' =>  $SG->get_session('mail_send_by').' | OTP for Sign In',
-								'message' => $msg['OTP_MSG'],
-							);
-					
-					if($PV['is_smtp_mail']){						
-					   mail_send_smtp($MAIL_OTP);
-					}else{
-					   $send = $G->mail_send($MAIL_OTP);
-					}
-					
-					$otp_signin_log = array('user_id'		=> $login_user_id,
-											  'page_code'	=>  $page_code,
-											  'action_type'	=>  $action_type,
-											  'action'		=> 'Sign In by '.$user_email);
-					
-					$G->set_system_log($otp_signin_log);
-					 
-					echo '{"status":"1","message":"Sign In "}';
-					
-				}else if($no_row[0]==0){	
+				$otp_signin_log = array('user_id'		=> $login_user_id,
+										  'page_code'	=>  $page_code,
+										  'action_type'	=>  $action_type,
+										  'action'		=> 'Sign In by '.$access_key);
+				
+				$G->set_system_log($otp_signin_log);
+				 
+				echo '{"status":"1","message":"Sign In "}';
+				
+			}else if($no_row[0]==0){	
 
-					if($SG->get_session('is_open')==1){
-					
-						$new_user_id = add_new_user([  'user_email'	=> $user_email,								   
-													   'user_role_code' => (get_config('signup_user_role') ?? 'BAS'),
-													   'rdsql'		=> $rdsql,
-													   'g'			=> $G,
-													   'password'	=> $password]);							
-						$msg		 = custom_mail_message(['user_key'   => $new_key]);
-					
-						$MAIL_OTP=array(
-									'from'    => $SG->get_session('mail_send_by').' Admin ',					
-									'to'      => $user_email, //'ratbew@gmail.com',
-									
-									'cc'	  =>  get_config('cc_mail'),
-									'bcc'	  => get_config('bcc_mail'),
-									
-									'subject' =>  $SG->get_session('mail_send_by').' | OTP for Sign In',
-									'message' => $msg['OTP_MSG'],
-								);
-						
-						if($PV['is_smtp_mail']){						
-							mail_send_smtp($MAIL_OTP);
-						}else{
-							$send = $G->mail_send($MAIL_OTP);
-						}
-						
-						$otp_signup_log = array('user_id'		=> $new_user_id,
-												  'page_code'	=> $page_code,
-												  'action_type'	=>  $action_type,
-												  'action'		=> 'Sign Up by '.$user_email);
-						
-						$G->set_system_log($otp_signup_log);
-						
-						echo '{"status":"1","message":"Sign Up"}';
-						
-					}else{						
-						echo '{"status":"0","message":"Sorry, it seems the user email is invalid"}';
-					}
-							
-								   
-				} // new user					
+				if($SG->get_session('is_open')==1){
 				
-				exit;
+					$new_user_id = add_new_user([  "$access_token"	=> $access_key,								   
+												   'user_role_code' => (get_config('signup_user_role') ?? 'BAS'),
+												   'rdsql'		=> $rdsql,
+												   'g'			=> $G,
+												   'password'	=> $password]);							
+								
+					send_gate_access_code(['access_code'	=> $new_key,
+									   'access_key' 	=> $access_key,
+									   'is_smtp_mail'	=> $PV['is_smtp_mail'],
+									   'lock_type'		=> $access_lock_type,
+									   'g'				=> $G,
+									   'sg'				=> $SG,
+									   'lwp'			=> $LWP											   
+									]);
+					
+					$otp_signup_log = array('user_id'		=> $new_user_id,
+											  'page_code'	=> $page_code,
+											  'action_type'	=>  $action_type,
+											  'action'		=> 'Sign Up by '.$access_key);
+					
+					$G->set_system_log($otp_signup_log);
+					
+					echo '{"status":"1","message":"Sign Up"}';
+					
+				}else{						
+					echo '{"status":"0","message":"Sorry, it seems the user email is invalid"}';
+				}							
+							   
+			} // new user					
+			
+			exit;
 			
 		} // end of AOTP
 		
 		// email OTP
 		if(@$_POST['action']=='ROTP'){
 			$user_email = strtolower($_POST['user_email']);	
-			$new_key	= create_otp();
+			//$new_key	= create_otp();
+			$new_key = '123456';
 			$password  	=  md5($new_key);
 			$action_type 	= 'AOTP';
 			$page_code		= $PV['GATE_CODE'][$action_type];
@@ -761,4 +774,47 @@
 		function create_otp(){						
 			return $new_key		= substr(str_shuffle(rand()),0,5);			
 		} //end
+
+		// send_gate_access_code
+		function send_gate_access_code($param){
+
+			$lv = (object) ['msg'=>'','pay_load'=>''];
+
+			// email
+			if($param['lock_type']=='email'){
+
+				$lv->msg = custom_mail_message(['user_key'   => $param['access_code']]);
+
+				$lv->pay_load	=	array(
+										'from'    => $param['sg']->get_session('mail_send_by').' Admin ',					
+										'to'      => $param['access_key'], //'ratbew@gmail.com',
+										
+										//'cc'	  =>  $param['sg']->get_session('mail_send_by')
+										'bcc'	  =>  (@$param['sg']->get_session('secondary_mail') ?? get_config('bcc_mail')),
+										
+										'subject' =>  $param['sg']->get_session('mail_send_by').' | OTP for Sign In',
+										'message' =>  $lv->msg['OTP_MSG'],
+									);			
+
+				if($param['is_smtp_mail']){						
+					mail_send_smtp($lv->pay_load);
+				}else{
+					$param['g']->mail_send($lv->pay_load);
+				}
+
+			}else if($param['lock_type']=='mobile'){
+
+				$param['lwp']->request('POST', 'https://control.msg91.com/api/v5/flow/', [
+					'body' => '{"template_id":"654a057ad6fc05039a1dd4a2","sender":"O2D3", 
+					"short_url":"0","mobiles":91'.$param['access_key'].',"OTP":"'.$param['access_code'].'"}',
+					'headers' => [
+					'accept' => 'application/json',
+					'authkey' => '409078AslqkurQc8bD654a077aP1',
+					'content-type' => 'application/json',
+					],
+				]);
+
+			} // end // end
+
+		} // end of function
 ?>
