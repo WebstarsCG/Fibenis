@@ -93,21 +93,22 @@
 							   </div>
 				      			 <div class="modal-body">
 		   
-				<form class="form-signin" id="form-sign-in" onsubmit="return  check_key();">
+				<form class="form-signin" id="form-sign-in" onsubmit="return check_key(0);">
 				
 				<TMPL_IF IS_OTP>
 						<div class="form-group has-feedback" 
 							 id="inputEmail_area">
-							<label class="txt_size_12 clr_red" id="inputEmail_warn"></label>											 
+							<label class="txt_size_12 clr_red" id="inputEmail_warn" ></label>											 
 							<div class="input-group">			
 								<span class="input-group-addon" id="basic-addon9">
-								  <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+								  <span class="glyphicon glyphicon-envelope" id="inputEmail_gicon" aria-hidden="true"></span>
 								</span>
 								<input type="text" placeholder="Give your email address"
 								class="form-control"
 								tabindex="1"
 								id="inputEmail"
 								maxlength="75"
+								autocomplete="off"
 								data-message-mismatch="Sorry, given OTP seems invalid. Kindly verify it or Resend OTP.";
 								onkeydown="JavaScript:set_stlye_neutral(this,{'is_warn':1});"
 								 onkeypress  = "return PR_All_Alpha_Numeric(event,'@-_.');"
@@ -133,7 +134,7 @@
 											  >
 											<span id="inputPassword_icon" class="glyphicon form-control-feedback" aria-hidden="true"></span>
 										  </div> 
-							  <label id="inputPassword_warn" class="txt_size_12 clr_gray_9">Check email, If OTP did n't recieve, check SPAM once.</label>
+							  <label id="inputPassword_warn" class="txt_size_12 clr_gray_9"></label>
 						  </div> 
 								  
 						
@@ -147,7 +148,7 @@
 								tabindex="3"
 								id="buttonSignIn">
 							<span id="lbl-sign-in" class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;
-							Sign In with E-mail OTP
+							<span id="lbl-sign-in-txt" >Sign In with E-mail OTP</span>
 							</button>
 							<button class="btn  btn-success btn-sm hide"
 								type="submit"
@@ -172,11 +173,14 @@
 								href="JavaScript:change_email_otp();"
 								id="buttonChangeEmail">
 							<span id="lbl-sign-in" class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;
-							Change Email
+						
 							</a>
 						</div>
-						
-						
+						<TMPL_IF IS_OTP_MOBILE>
+							<script>
+									set_access_lock_as_mobile();
+							</script>
+						</TMPL_IF>					
 				
 				<TMPL_ELSE>
 								<div class="form-group has-feedback" 
