@@ -88,7 +88,7 @@
 
 	// check key
 	
-	function check_key(){
+	function check_key(is_mobile_otp){
 		
 		if(GET_E_VALUE('is_otp')==1){
 			hide_otp();
@@ -97,8 +97,10 @@
 		if(validate_check_key()==true){
 			
 			G.showLoader('Verifying...');
+
+			const access_lock = (is_mobile_otp==1)?'user_mobile':'user_email';
 		 
-			var req = 	'&user_email='+GET_E_VALUE('inputEmail')+
+			var req ='&'+access_lock+'='+GET_E_VALUE('inputEmail')+
 				   	'&password='+GET_E_VALUE('inputPassword')+
 					'&gate='+GET_E_VALUE('inputGate')+
 					'&action=CKY&request=1';
@@ -106,10 +108,6 @@
 			action_blink_on('SI');
 			
 			temp_gate.element = ELEMENT('inputEmail');
-			
-			//alert('sssss..====>'+req);
-			//ajxrqst.set_request('plugin/inc/wp_login.php',req);
-			//ajxrqst.send_get(check_key_response);
 			ajxrqst.set_url(req);
 			ajxrqst.send_post(check_key_response);
 			
@@ -119,8 +117,7 @@
 			if(GET_E_VALUE('is_otp')==1){
 				set_otp_interval();
 			}
-			//G.bs_alert_error("Please give valid information","SIE");
-			
+
 			 document.getElementById('inputEmail_warn').innerHTML='Please enter valid information';
 		         set_series({'elements':temp_gate.action.SI.elements,
 			  	    'set_alert':1
@@ -1000,5 +997,122 @@
         } // end
 	
 	
+	// set key as mobile
+	function set_access_lock_as_mobile(){
+		var lv= {};
+		lv.element_id = 'inputEmail';
+		lv.element 	  = document.getElementById(lv.element_id);
+		lv.element_gicon = document.getElementById(`${lv.element_id}_gicon`);
+		lv.element_icon = document.getElementById(`${lv.element_id}_icon`);
+		lv.element_signin = document.getElementById('buttonSignIn');
+		lv.element_signin_txt = document.getElementById(`lbl-sign-in-txt`);
+		lv.element_form_signin = document.getElementById('form-sign-in');
+
+		lv.element.setAttribute('placeholder','Give your Mobile No.');
+		lv.element.setAttribute('onkeypress',"return PR_All_Numeric(event,'',this);");
+		lv.element.setAttribute('maxlength',10);
+		lv.element.setAttribute('onblur',"return check_mobile(this)");	
+		lv.element.type="number";
+		
+		//icon
+		lv.element_gicon.classList.add('glyphicon-phone');
+		lv.element_gicon.classList.remove('glyphicon-envelope');
+		
+		//signin
+		lv.element_signin_txt.innerHTML = "Sign In with Mobile";	
+		lv.element_signin.setAttribute('onclick',"check_mobile_otp(G.$('inputEmail'))");		
+		lv.element_form_signin.setAttribute('onsubmit',"return  check_key_mobile();");
+	} // end
 	
+	// check mobile
+	function check_mobile(element){
+			   
+		var temp = new Object({'neutral':{'response':0,
+			                          'icon':'alert clr_red',
+				                  'area':'has-error',
+						  'label':'Please give mobile no.'
+						  },
+			               'success':{'reponse':100,
+						  'icon':'',
+                                                  'area':'',
+						  'label':''}
+			   });	   
+		
+		var email_syntax = PR_Email(element);
+		
+		var ele_area    = ELEMENT(element.id+'_area');
+			
+        var ele_warn    = ELEMENT(element.id+'_warn');
+		
+		var ele_icon    = ELEMENT(element.id+'_icon');
+		
+		temp_gate.element = element;
+		
+		
+		if((element.value.length!=10)){
+			   
+			//show_message_box('Please give a valid email');
+			//G.bs_alert_error('Please give a valid email');			
+			
+			// warn style
+			ele_area.className='form-group has-error has-feedback';
+			
+			// warn message			
+			ele_warn.innerHTML = 'Please give your 10 digit mobile number';
+			
+			// icon			
+			ele_icon.className = 'glyphicon glyphicon glyphicon-alert clr_red form-control-feedback';
+			
+			setTimeout(set_element_focus,100);
+			
+			return false;
+
+		}else{			   
+			   temp_status = (temp_gate.element.value.length>0)?temp.success:temp.success;
+			   
+			   // clear warn style
+			   ele_area.className='form-group has-feedback '+temp_status.area;
+			   
+			   // clear warning
+			   if (temp_status.response==0){
+			       //element.placeholder=temp_status.label;
+			       ele_warn.innerHTML='';
+			   }else{
+			      ele_warn.innerHTML=temp_status.label;			      
+			   }
+			   
+			   // style			   
+			   ele_icon.className = 'glyphicon glyphicon glyphicon-'+temp_status.icon+' form-control-feedback';
+			   
+			   return true;
+			   
+		} // end
+		
+		temp_gate.element='';
 	
+	} // end
+	
+
+	// check mobile OTP
+	function check_mobile_otp(element){
+		
+		var lv = {};
+		
+		if(check_mobile(element)==true){
+			
+			G.showLoader('Verifying & sending OTP to your mobile');
+			
+			lv.req = '&user_mobile='+element.value+
+					 '&action=AOTP&request=1';
+								
+			temp_gate.element = element;
+			ajxrqst.set_url(lv.req);
+			ajxrqst.send_post(check_mail_otp_response);
+		}
+		
+	} // end
+	
+	// check_key				
+	function check_key_mobile(){
+			return check_key(1);
+	} // check key
