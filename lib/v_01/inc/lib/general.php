@@ -2024,6 +2024,9 @@ function getEKV($entity_code,$key){
 
 	$coach = $this->coach['id'];
 	if($entity_code && $key){
+
+		//echo " WHERE coach_id=$coach AND entity_code='$entity_code' AND entity_key='$key' ";
+
 		return $this->get_column_value('entity_key_value',
 									   'entity_value',
 									   " WHERE coach_id=$coach AND entity_code='$entity_code' AND entity_key='$key' ");
@@ -2138,8 +2141,8 @@ function setEKV($entity_code,$key,$val){
 	function setHeaderContentType($content_type){
 		
 		$content_type_list = ['json'=>"application/json; charset=UTF-8"];		
-		return @$content_type_list[$content_type] ?? throw new Exception("Undefined Type $content_type given");
-
+		//return (@$content_type_list[$content_type])?@$content_type_list[$content_type]:throw new Exception("Undefined Type $content_type given");
+		return @$content_type_list[$content_type];
 	} // end
 
 	//////////////////////////////////////////
