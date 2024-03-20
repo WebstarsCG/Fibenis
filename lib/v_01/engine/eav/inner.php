@@ -143,7 +143,7 @@
 								  ];
 								  								  
 					// config keys			  
-					$lv['gate_config']  = ['is_otp','is_open','auth_type','entry_gates'];	
+					$lv['gate_config']  = ['is_otp','is_open','auth_type','entry_gates','is_otp_mobile'];	
 					$config				= [];
 			
 					foreach ($lv['gate_config'] as $gate_config) {
@@ -158,6 +158,7 @@
 						$c->AddParam('IS_LDAP',( ($config['auth_type'] && ($config['auth_type']=='ldap'))?1:0));
 						$c->AddParam('IS_OPEN',$config['is_open']);
 						$c->AddParam('IS_OTP',$config['is_otp']);
+						$c->AddParam('IS_OTP_MOBILE',$config['is_otp_mobile']);
 						$c->AddParam('TERMINAL_PATH',$COACH['terminal_path']);
 						
 						$lv['entry_gates_text'] = $config['entry_gates'];
