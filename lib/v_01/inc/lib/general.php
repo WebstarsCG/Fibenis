@@ -1897,6 +1897,10 @@
 				          global $rdsql;
 				         
 					  $select_data = "SELECT $param[field] as field_1 FROM $param[table] $param[manipulation] ";
+
+					  if(@$param['show_query']==1){
+						echo $select_data;
+					  }
 			 
 					  $exe_select_data = $rdsql->exec_query($select_data,'select data--->');
 							 
@@ -1918,6 +1922,10 @@
 						}							
 				         
 					   $select_data = "SELECT $param[field] as field_1 $param[table] $param[manipulation] ";
+
+					   if(@$param['show_query']==1){
+						echo $select_data;
+					  	}
 			 
 					   $exe_select_data = $rdsql->exec_query($select_data,'select data--->');
 							 
