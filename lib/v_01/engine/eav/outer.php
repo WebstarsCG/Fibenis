@@ -213,53 +213,55 @@
 	
 		}else{ // open page
 				
-					$PV['cache_page_info'] = $COACH['terminal_path']."/cache/PG_$SHOW_DOOR"."_"."$PAGE.html";
+				$G->redirectIfAlreadyLogin();	
+			
+				$PV['cache_page_info'] = $COACH['terminal_path']."/cache/PG_$SHOW_DOOR"."_"."$PAGE.html";
 
-					if(is_file($PV['cache_page_info'])){		
-						$PV['temp_content']	=$G->getFileContent($PV['cache_page_info']);
-					}else{					
-												
-						include($LIB_PATH.'/engine/'.$ENGINE.'/inner.php');
-
-						call_page_content();
-					
-						$PV['is_page']  = 1;
-									   
-						$PV['layout']   = (@$CONTENT[$PAGE]['layout'])?$CONTENT[$PAGE]['layout']:'layout_full';
+				if(is_file($PV['cache_page_info'])){		
+					$PV['temp_content']	=$G->getFileContent($PV['cache_page_info']);
+				}else{					
 											
-						$C 		= new Template(array("filename" => $THEME_ROUTE."/template/layout/".$PV['layout'].".html",
-										 "debug"   => 0));
-								
-						$C->AddParam('PAGE_ID',$PAGE);
-			
-						$C->AddParam('PAGE_TITLE',$CONTENT[$PAGE]['title']);
-						
-						$C->AddParam('PAGE_INFO',$CONTENT[$PAGE]['page_content']);
-						
-						if(@$CONTENT[$PAGE]['side_menu']){
-						  
-						$C->AddParam('side_menu',@$CONTENT[$PAGE]['side_menu']);		
-						}
-						
-						$C->AddParam('PARENT_KEY_CODE',@$CONTENT[$PAGE]['parent_key_code']);
-						$C->AddParam('PARENT_NAME',@$CONTENT[$PAGE]['parent_name']);
-			
-						$C->AddParam('PARENT_RIGHT_IMAGE',@$CONTENT[$PAGE]['parent_right_image']);
-						$C->AddParam('PARENT_HEADER_IMAGE',@$CONTENT[$PAGE]['parent_header_image']);
-						
-						$C->AddParam('PAGE_RIGHT_IMAGE',@$CONTENT[$PAGE]['page_right_image']);
-						$C->AddParam('PAGE_HEADER_IMAGE',@$CONTENT[$PAGE]['page_header_image']);				
-						
-						$PAGE_CONTENT = $C->Output();
-						
-						$PV['temp_content'] = outer_action();
-						
-						 $G->putFileContent(['path'=>$PV['cache_page_info'],
-										   'content'=>$PV['temp_content']]);
-						
-					}
+					include($LIB_PATH.'/engine/'.$ENGINE.'/inner.php');
+
+					call_page_content();
 				
-				echo $PV['temp_content'];
+					$PV['is_page']  = 1;
+									
+					$PV['layout']   = (@$CONTENT[$PAGE]['layout'])?$CONTENT[$PAGE]['layout']:'layout_full';
+										
+					$C 		= new Template(array("filename" => $THEME_ROUTE."/template/layout/".$PV['layout'].".html",
+										"debug"   => 0));
+							
+					$C->AddParam('PAGE_ID',$PAGE);
+		
+					$C->AddParam('PAGE_TITLE',$CONTENT[$PAGE]['title']);
+					
+					$C->AddParam('PAGE_INFO',$CONTENT[$PAGE]['page_content']);
+					
+					if(@$CONTENT[$PAGE]['side_menu']){
+						
+					$C->AddParam('side_menu',@$CONTENT[$PAGE]['side_menu']);		
+					}
+					
+					$C->AddParam('PARENT_KEY_CODE',@$CONTENT[$PAGE]['parent_key_code']);
+					$C->AddParam('PARENT_NAME',@$CONTENT[$PAGE]['parent_name']);
+		
+					$C->AddParam('PARENT_RIGHT_IMAGE',@$CONTENT[$PAGE]['parent_right_image']);
+					$C->AddParam('PARENT_HEADER_IMAGE',@$CONTENT[$PAGE]['parent_header_image']);
+					
+					$C->AddParam('PAGE_RIGHT_IMAGE',@$CONTENT[$PAGE]['page_right_image']);
+					$C->AddParam('PAGE_HEADER_IMAGE',@$CONTENT[$PAGE]['page_header_image']);				
+					
+					$PAGE_CONTENT = $C->Output();
+					
+					$PV['temp_content'] = outer_action();
+					
+						$G->putFileContent(['path'=>$PV['cache_page_info'],
+										'content'=>$PV['temp_content']]);
+					
+				}
+			
+			echo $PV['temp_content'];
 		
 		} // end of content stream
 		

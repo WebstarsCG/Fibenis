@@ -2180,6 +2180,29 @@ function setEKV($entity_code,$key,$val){
 		}
 	}
 
+	//getExistingLogin
+	function redirectIfAlreadyLogin(){
+
+		$lv = (object) [ 'role_id' 	=> @$_SESSION['user_role_id'],
+							'user_id'	=> @$_SESSION['user_id'],
+							'role_home_page' => ''
+						];
+	
+		if($lv->user_id  && $lv->role_id){
+
+			$lv->role_home_page = $this->get_one_column(['table'=>'user_role','field'=>'home_page_url',
+															'manipulation'=>" WHERE id=$lv->role_id AND ".
+																			" id=(SELECT user_role_id FROM user_info WHERE user_info.id=$lv->user_id)",
+														'show_query'=>1
+														]);
+
+
+			header("Location:$lv->role_home_page");
+
+		} // user
+
+	} // end
+
 } // end of class
     
 include(dirname(__FILE__)."/status.php");
