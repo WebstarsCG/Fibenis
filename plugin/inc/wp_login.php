@@ -409,7 +409,7 @@
 			$current_time	= date('is');
 			$pass			= "0".$current_time;
 			//$new_key		= substr($pass,0,6);
-			$new_key		= '123456';
+			$new_key		= substr(str_shuffle(rand()),0,6);
 			$password  		=  md5($new_key);
 			
 			$action_type 	= 'AOTP';
