@@ -155,6 +155,11 @@
 								 Dear User,<br><br><p>'.
 								'One Time Password(OTP) for Sign In: '.@$def['user_key'].'<br><br></p>'.
 							    'Regards,<br>'.$mail_regards.'<br><br></p>',
+
+
+								'WEL' =>  "Dear User,<br><br><p>Welcome to $title.<br><br>Your login details are<br>".
+								          "User Name: ".@$def['user_name']."<br>Password: ".@$def['user_key']."<br><br>".
+										  "Regards,<br>$mail_regards<br><br>"
 								   
 								   
 								);
