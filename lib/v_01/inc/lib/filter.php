@@ -131,7 +131,19 @@
 
 		$FILTER['timestamp_to_dbyt'] = function($data_in){
 			return date_format(date_create($data_in),'d-M-y H:i:s');
-		}
+		};
+
+		$FILTER['nospace'] = function($din){
+			return preg_replace("/\s/i",'',$din);
+		};
+
+		$FILTER['digit_in'] = function($din){
+			return preg_replace("/\D/i",'',$din);
+		};
+
+		$FILTER['alpha_in'] = function($din){
+			return preg_replace("/[^a-zA-Z]/i",'',$din);
+		};
 		
 		
 		
