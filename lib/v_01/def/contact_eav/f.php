@@ -47,8 +47,10 @@
 							       'is_mandatory'=>1,
 							       
 							       'allow' => 'd10',
+
+								   'filter_in' => $FILTER['digit_in']
                                                                
-                                                               ),
+                                ),
 						    
 						    '3' =>array( 'field_name'=> 'Email ',
                                                                
@@ -67,6 +69,8 @@
 							       'input_html'=>"class='w_200' onchange='check_email(this);'",
 							       
 							       'is_mandatory'=>1,	
+
+								    'filter_in'=>$FILTER['nospace']
                                                                
                                                                ),
 						    
