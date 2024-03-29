@@ -49,6 +49,3 @@ $T_SERIES = array(
 	)
 
 );
-
-
-?>
