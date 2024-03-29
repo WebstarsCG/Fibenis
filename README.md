@@ -12,7 +12,9 @@ Fibenis is an adaptive and full-stack PHP web framework developed by Webstars. I
   
 - **Full Stack:** Covers both front-end and back-end development needs.
 
-## Installation Steps
+## Getting Started
+
+Follow the installation steps outlined below to set up your Fibenis-powered web application effortlessly.
 
 1. **Create Application Folder**
    - Establish a folder named `webapp` to serve as the application's home.
@@ -77,3 +79,18 @@ mysql -h localhost -u root <db_name> < doc/db/fibenis_nano_0.1.sql
 -- Create User
 CREATE USER '<user>'@'<host_name>' IDENTIFIED BY '<password>';
 GRANT ALL PRIVILEGES ON *.* TO '<user>'@'<host_name>' WITH GRANT OPTION;
+```
+
+# Contributing
+
+We welcome contributions from the community! Please review our [contribution guidelines](CONTRIBUTING.md) before getting started.
+
+# Troubleshooting
+
+Encountered an issue? Check out our [troubleshooting guide](TROUBLESHOOTING.md) for common problems and solutions.
+
+# License
+
+Fibenis is open-source software licensed under the [MIT License](LICENSE).
+
+Follow these meticulous instructions to ensure a seamless installation process for your Fibenis-powered application.
