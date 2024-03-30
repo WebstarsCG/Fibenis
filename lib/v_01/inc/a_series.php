@@ -31,19 +31,17 @@
 							
 				$G->set_system_log($param);			
 				
-				if($A_SERIES[$TOKEN]){
+				if(@$A_SERIES[$TOKEN]){
 		
 						echo $A_SERIES[$TOKEN]([
 										'data'	  => @$_GET['param'],
-										'sv' 	  => @$_GET['sv'],
-										'rdsql'   => $rdsql,
 										'G'	  => $G,
 										'lwp'	  => $lwp,
-										'user_id' => @$USER_ID,
-										'pass_id' => @$PASS_ID
-										
-										
-										
+										'pass_id' => @$PASS_ID,
+										'sv' 	  => @$_GET['sv'],
+										'rdsql'   => $rdsql,
+										'token'	  =>$TOKEN,
+										'user_id' => @$USER_ID
 						]);
 				}else{
 						
