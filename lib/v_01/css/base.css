@@ -560,6 +560,8 @@
 		height		: 30px;		
 	}	
 	
+	
+
 	fieldset .value option{
 		background-color:#ffffff !important;
 		border-bottom   : 1px solid #ababab;
@@ -567,6 +569,10 @@
 		font-size 	: 14px;
 		padding-top	: 3px;
 		padding-bottom	: 3px;		
+	}
+
+	fieldset .value option:checked{
+		background-color:#cacaca !important;
 	}
 	
 	fieldset.plain .row{

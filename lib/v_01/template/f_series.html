@@ -759,11 +759,12 @@
 										<TMPL_IF option_multiple>
 											multiple="true"
 											id="X<TMPL_VAR field_id>_TEMP"  name="X<TMPL_VAR field_id>_TEMP"
+											data-id="X<TMPL_VAR field_id>"
 											onchange="JavaScript:selectbox_capture_selected_value(G.$(this.id),G.$('X<TMPL_VAR field_id>'),',');"
-											
+												onfocus="JavaScript:elementFocus(G.$('X<TMPL_VAR field_id>'));"
 										<TMPL_ELSE>
 											id="X<TMPL_VAR field_id>"  name="X<TMPL_VAR field_id>"
-											
+											onfocus="JavaScript:elementFocus(this);"
 										</TMPL_IF>
 										
 										 <TMPL_IF IS_MANDATORY>
@@ -774,7 +775,7 @@
 											 onchange="JavaScript:elementFocusOut(this);"
 										 </TMPL_IF>
 										 
-											 onfocus="JavaScript:elementFocus(this);"
+											
 										
 										<TMPL_IF LAST_DIVIDER_ID>data-last-divider-id=<TMPL_VAR LAST_DIVIDER_ID></TMPL_IF>
 									
