@@ -50,7 +50,8 @@
 											(SELECT sn FROM user_role WHERE id=user_role_id) as user_role,
 											user_role_id,											
 											is_internal,
-											(SELECT home_page_url FROM user_role WHERE user_role.id=user_role_id) as home_page_url
+											(SELECT home_page_url FROM user_role WHERE user_role.id=user_role_id) as home_page_url,
+										    (SELECT session_time FROM user_role WHERE user_role.id=user_role_id) as session_time
 									 FROM 
 											$param[table]											
 									 WHERE 1=1 
@@ -64,6 +65,11 @@
 							// session id generate
 							session_commit(); //  close the current sessions
 							$session_id = $this->g->hashKeyGenerator($get_user_row->id,$get_user_row->email);
+
+							if($get_user_row->session_time>0){
+								ini_set('session.cookie_lifetime',$get_user_row->session_time);
+							}
+
 							session_id($session_id);
 							session_start();
 							

@@ -46,6 +46,14 @@
 								     
                                                                      'attr'=>["width"=>"25%"]
                                                             ),
+
+                                                            's'=>array('th'=>'Session Active Time(Seconds)',
+                                                                     
+                                                                     'field'=>"IF((session_time=0),'Default',session_time)",
+								     
+                                                                     'attr'=>["width"=>"10%",'class'=>'align_RM']
+                                                            ),
+							    
 							    
                                                             
                                                             4=>array('th'=>'Permission',

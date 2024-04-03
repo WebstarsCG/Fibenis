@@ -22,6 +22,12 @@
 											'type' => 'text',
 											'is_mandatory'=>1,
 											'allow' => 'w_100'),
+
+									'4' => array( 'field_name'=> 'Session Active Time',
+											'field_id' => 'session_time',
+										'type' => 'text',
+										'is_mandatory'=>1,
+										'allow' => 'd7')
 				    ),
 					
 					
@@ -38,6 +44,8 @@
 		    'back_to'  => array( 'is_back_button' =>1, 'back_link'=>'?d=user_role', 'BACK_NAME'=>'Back'),
                                 
                      'prime_index'   => 1,
+
+					 'is_cc'=>1,
                                 
                     # File Include
                                 

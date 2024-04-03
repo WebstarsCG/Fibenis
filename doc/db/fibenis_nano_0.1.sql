@@ -1,3 +1,5 @@
+-- 03APR2024
+ALTER TABLE user_role ADD session_time INT NOT NULL DEFAULT '0' AFTER home_page_url; 
 
 -- 10JAN2024
 DROP FUNCTION IF EXISTS get_exav_addon_vc128uniq_match; 
