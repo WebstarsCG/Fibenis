@@ -62,6 +62,7 @@
 
 							
 				$lv['t_query_result']      = $param['rdsql']->exec_query("$lv[t_query]","Error t_addon child");
+				$lv['t_row_count']		   = 0;
 				
 				// each field
 				while($lv['t_query_info']  = $param['rdsql']->data_fetch_assoc($lv['t_query_result'])){
@@ -69,7 +70,10 @@
 						$col = [];						
 						$lv['token'] = $lv['t_query_info']['token'];						
 						$collate_col = $lv['t_query_info'];
+						$lv['t_row_count']++;
 
+						$lv['t_row_odd_even'] = (($lv['t_row_count']%2)==0)?'even':'odd';
+ 
 						if($collate_col['input_type'] && $collate_col['token']){
 							
 							if(@$lv['input_type'][$collate_col['input_type']]['table']){
@@ -115,9 +119,9 @@
 					  $lv['template_col_content'] = (@$col['is_heading'])?"<tr class=\"$lv[token]\">\n".
 													 "<!---<div class=\"template\">$lv[col_template]</div>--->".
 													 "<th  colspan=\"2\"><TMPL_VAR $lv[token]_label></th></tr>\n":
-													 "<tr class=\"$lv[token]\">\n".
-														"\t<td ><TMPL_VAR $lv[token]_label></td>\n".
-														"\t<td >$lv[col_template]</td>\n".
+													 "<tr class=\"$lv[token] $lv[t_row_odd_even]\">\n".
+														"\t<td class=\"l\"><TMPL_VAR $lv[token]_label></td>\n".
+														"\t<td class=\"v\">$lv[col_template]</td>\n".
 													 "</tr>\n";
 							array_push($lv['template_cols'],$lv['template_col_content']);
 							$lv['counter']['row']++;
@@ -132,7 +136,7 @@
 				$lv['template_content']   = ((@$lv['template_content'])?(@$lv['template_content'].$lv['template_cols_text']):
 																		$lv['template_cols_text']);
 
-				$lv['template_content']		= "<table class='table col-md-12  fbn-table-to-div table-striped ' border='0' cellpadding='5px' data-id=''>".								"$lv[template_content]</table>";																			
+				$lv['template_content']		= "<table class=\"table col-md-12  fbn-table-to-div table-striped\" border=\"0\" cellpadding=\"5px\" data-id=''>".								"$lv[template_content]</table>";																			
 							
 				return ['data'      =>$lv['data'],				
 						'template_content'=>$lv['template_content']
