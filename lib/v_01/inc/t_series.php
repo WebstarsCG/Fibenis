@@ -418,9 +418,9 @@
 						
 						if($type == 'pdf'){
 								
-							require_once("$param[lib_path]/comp/tcpdf2/config/tcpdf_config_alt.php");
+							//require_once("$param[lib_path]/comp/tcpdf3/config/tcpdf_config_alt.php");
 							
-							require_once("$param[lib_path]/comp/tcpdf2/tcpdf.php");
+							require_once("$param[lib_path]/comp/tcpdf3/tcpdf.php");
 														
 							class MYPDF extends TCPDF {
 								
@@ -438,27 +438,30 @@
 												$t_series = $param['t_series'];
 												
 												$header_info = @$t_series['save_as'][$param['save_as_i']]['header'];
+
+												if(is_array($header_info)){
 												
-												if(array_key_exists('image_path',@$t_series['save_as'][$param['save_as_i']]['header'])){
-												
-													$logo = @$header_info['image_path'];
+													if(array_key_exists('image_path',$header_info)){
 													
-													if($logo){
-														$image_file = K_PATH_IMAGES.$logo;	
+														$logo = @$header_info['image_path'];
+														
+														if($logo){
+															$image_file = K_PATH_IMAGES.$logo;	
+														}
+														else {
+															$image_file = PDF_HEADER_LOGO.$param['lib_path'].'/images/nidhi_prayas.jpg';		
+														}
+														
+														//$this->Image($image_file, 10, 10, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+														$this->Image($image_file, $header_info['margin_left'], $header_info['margin_top'],  $header_info['height'], '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
+														// Set font
+														$this->SetFont('helvetica', 'B', 20);
+														// Title
+														//echo $header_info['title'];
+														$this->Cell(0, 15,(@$header_info['title']?$header_info['title']:''), 0, false, 'C', 0, '', 0, false, 'M', 'M');
 													}
-													else {
-														$image_file = PDF_HEADER_LOGO.$param['lib_path'].'/images/nidhi_prayas.jpg';		
-													}
-													
-													//$this->Image($image_file, 10, 10, 15, '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-													$this->Image($image_file, $header_info['margin_left'], $header_info['margin_top'],  $header_info['height'], '', 'JPG', '', 'T', false, 300, '', false, false, 0, false, false, false);
-													// Set font
-													$this->SetFont('helvetica', 'B', 20);
-													// Title
-													//echo $header_info['title'];
-													$this->Cell(0, 15,(@$header_info['title']?$header_info['title']:''), 0, false, 'C', 0, '', 0, false, 'M', 'M');
-												}
-										    
+
+												} // is_array	
 										}
 								
 										// Page footer
