@@ -2229,11 +2229,11 @@ class TCPDF {
 		}
 		if (!isset($this->pagedim[$this->page]['TrimBox'])) {
 			// the intended dimensions of the finished page after trimming
-			$this->pagedim = TCPDF_STATIC::setPageBoxes($this->page, 'TrimBox', $this->pagedim[$this->page]['CropBox']['llx'], $this->pagedim[$this->page]['CropBox']['lly'], $this->pagedim[$this->page]['CropBox']['urx'], $this->pagedim[$this->page]['CropBox']['ury'], true, $this->k, $this->pagedim);
+			$this->pagedim = TCPDF_STATIC::setPageBoxes($this->page, 'TrimBox', @$this->pagedim[$this->page]['CropBox']['llx'], @$this->pagedim[$this->page]['CropBox']['lly'], @$this->pagedim[$this->page]['CropBox']['urx'], @$this->pagedim[$this->page]['CropBox']['ury'], true, $this->k, $this->pagedim);
 		}
 		if (!isset($this->pagedim[$this->page]['ArtBox'])) {
 			// the page's meaningful content (including potential white space)
-			$this->pagedim = TCPDF_STATIC::setPageBoxes($this->page, 'ArtBox', $this->pagedim[$this->page]['CropBox']['llx'], $this->pagedim[$this->page]['CropBox']['lly'], $this->pagedim[$this->page]['CropBox']['urx'], $this->pagedim[$this->page]['CropBox']['ury'], true, $this->k, $this->pagedim);
+			$this->pagedim = TCPDF_STATIC::setPageBoxes($this->page, 'ArtBox', @$this->pagedim[$this->page]['CropBox']['llx'], @$this->pagedim[$this->page]['CropBox']['lly'], @$this->pagedim[$this->page]['CropBox']['urx'], @$this->pagedim[$this->page]['CropBox']['ury'], true, $this->k, $this->pagedim);
 		}
 		if (!isset($this->pagedim[$this->page]['Rotate'])) {
 			// The number of degrees by which the page shall be rotated clockwise when displayed or printed. The value shall be a multiple of 90.
@@ -2265,7 +2265,7 @@ class TCPDF {
 			$this->wPt = $this->fwPt;
 			$this->hPt = $this->fhPt;
 		}
-		if ((abs($this->pagedim[$this->page]['MediaBox']['urx'] - $this->hPt) < $this->feps) AND (abs($this->pagedim[$this->page]['MediaBox']['ury'] - $this->wPt) < $this->feps)){
+		if ((abs(@$this->pagedim[$this->page]['MediaBox']['urx'] - $this->hPt) < $this->feps) AND (abs(@$this->pagedim[$this->page]['MediaBox']['ury'] - $this->wPt) < $this->feps)){
 			// swap X and Y coordinates (change page orientation)
 			$this->pagedim = TCPDF_STATIC::swapPageBoxCoordinates($this->page, $this->pagedim);
 		}
@@ -3002,16 +3002,16 @@ class TCPDF {
 			//$gvars = $this->getGraphicVars();
 			$oldpage = $this->page;
 			$this->page = $pnum;
-			$this->wPt = $this->pagedim[$this->page]['w'];
-			$this->hPt = $this->pagedim[$this->page]['h'];
-			$this->w = $this->pagedim[$this->page]['wk'];
-			$this->h = $this->pagedim[$this->page]['hk'];
-			$this->tMargin = $this->pagedim[$this->page]['tm'];
-			$this->bMargin = $this->pagedim[$this->page]['bm'];
-			$this->original_lMargin = $this->pagedim[$this->page]['olm'];
-			$this->original_rMargin = $this->pagedim[$this->page]['orm'];
-			$this->AutoPageBreak = $this->pagedim[$this->page]['pb'];
-			$this->CurOrientation = $this->pagedim[$this->page]['or'];
+			$this->wPt = @$this->pagedim[$this->page]['w'];
+			$this->hPt = @$this->pagedim[$this->page]['h'];
+			$this->w = @$this->pagedim[$this->page]['wk'];
+			$this->h = @$this->pagedim[$this->page]['hk'];
+			$this->tMargin = @$this->pagedim[$this->page]['tm'];
+			$this->bMargin = @$this->pagedim[$this->page]['bm'];
+			$this->original_lMargin = @$this->pagedim[$this->page]['olm'];
+			$this->original_rMargin = @$this->pagedim[$this->page]['orm'];
+			$this->AutoPageBreak = @$this->pagedim[$this->page]['pb'];
+			$this->CurOrientation = @$this->pagedim[$this->page]['or'];
 			$this->SetAutoPageBreak($this->AutoPageBreak, $this->bMargin);
 			// restore graphic settings
 			//$this->setGraphicVars($gvars);
@@ -4956,8 +4956,8 @@ class TCPDF {
 						$this->x = $x;
 					}
 				} else {
-					if ($this->pagedim[$this->page]['olm'] != $this->pagedim[$oldpage]['olm']) {
-						$this->x = $x + ($this->pagedim[$this->page]['olm'] - $this->pagedim[$oldpage]['olm']);
+					if (@$this->pagedim[$this->page]['olm'] != @$this->pagedim[$oldpage]['olm']) {
+						$this->x = $x + (@$this->pagedim[$this->page]['olm'] - @$this->pagedim[$oldpage]['olm']);
 					} else {
 						$this->x = $x;
 					}
@@ -7953,7 +7953,7 @@ class TCPDF {
 			$out .= ' /Resources 2 0 R';
 			foreach ($this->page_boxes as $box) {
 				$out .= ' /'.$box;
-				$out .= sprintf(' [%F %F %F %F]', $this->pagedim[$n][$box]['llx'], $this->pagedim[$n][$box]['lly'], $this->pagedim[$n][$box]['urx'], $this->pagedim[$n][$box]['ury']);
+				$out .= sprintf(' [%F %F %F %F]', @$this->pagedim[$n][$box]['llx'], @$this->pagedim[$n][$box]['lly'], @$this->pagedim[$n][$box]['urx'], @$this->pagedim[$n][$box]['ury']);
 			}
 			if (isset($this->pagedim[$n]['BoxColorInfo']) AND !empty($this->pagedim[$n]['BoxColorInfo'])) {
 				$out .= ' /BoxColorInfo <<';
@@ -7986,7 +7986,7 @@ class TCPDF {
 				$out .= ' >>';
 			}
 			$out .= ' /Contents '.($this->n + 1).' 0 R';
-			$out .= ' /Rotate '.$this->pagedim[$n]['Rotate'];
+			$out .= ' /Rotate '.@$this->pagedim[$n]['Rotate'];
 			if (!$this->pdfa_mode) {
 				$out .= ' /Group << /Type /Group /S /Transparency /CS /DeviceRGB >>';
 			}
@@ -8021,7 +8021,7 @@ class TCPDF {
 				$out .= ' >>';
 			}
 			$out .= $this->_getannotsrefs($n);
-			$out .= ' /PZ '.$this->pagedim[$n]['PZ'];
+			$out .= ' /PZ '.@$this->pagedim[$n]['PZ'];
 			$out .= ' >>';
 			$out .= "\n".'endobj';
 			$this->_out($out);
@@ -8144,7 +8144,7 @@ class TCPDF {
 					$formfield = false;
 					$pl['opt'] = array_change_key_case($pl['opt'], CASE_LOWER);
 					$a = $pl['x'] * $this->k;
-					$b = $this->pagedim[$n]['h'] - (($pl['y'] + $pl['h']) * $this->k);
+					$b = @$this->pagedim[$n]['h'] - (($pl['y'] + @$pl['h']) * $this->k);
 					$c = $pl['w'] * $this->k;
 					$d = $pl['h'] * $this->k;
 					$rect = sprintf('%F %F %F %F', $a, $b, $a+$c, $b+$d);
