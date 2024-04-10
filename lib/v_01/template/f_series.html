@@ -1934,13 +1934,17 @@
 					
 			<TMPL_IF message>
 			   
-				var message = new String('<TMPL_VAR message>');
+				var message = new String('<TMPL_VAR message>');				 
+				var message_info = message.split(':');
+				var message_call = {'block_fail':G.bs_alert_error,
+									'blocK_pass':G.bs_alert_success};
+				
+				if(message_info[0].length > 0 && message_info[1].lentgth > 0){
+					message_call[message_info[0]](message_info[1]);
+				}
 				 
-				var message_info = message.split(':');			
-				 
-				ELEMENT('inpage_message').className	=	 message_info[0];
-				 
-				fade_in_out('#inpage_message',5000,message_info[1]);
+				//ELEMENT('inpage_message').className	=	 message_info[0];				 
+				//fade_in_out('#inpage_message',5000,message_info[1]);
 				
 			</TMPL_IF>	
 
