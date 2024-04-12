@@ -133,6 +133,10 @@
 			return date_format(date_create($data_in),'d-M-y H:i:s');
 		};
 
+		$FILTER['iso_ymd_to_dMy'] = function($data_in){
+			return date_format(date_create($data_in),'d-M-y');
+		};
+
 		$FILTER['nospace'] = function($din){
 			return preg_replace("/\s/i",'',$din);
 		};
