@@ -1,9 +1,9 @@
 	<script language="javascript" type="text/javascript"  src="<TMPL_VAR LIB_PATH>/js/d_series.js?v=5.0"></script>
 	<script language="JavaScript" type="text/javascript" src="<TMPL_VAR lib_path>js/waiting_list.js"></script>
 	<script language="JavaScript" type="text/javascript" src="<TMPL_VAR lib_path>js/general.c3001.js"></script>
+	<link rel="stylesheet" href="<TMPL_VAR LIB_PATH>/css/d_series.css">
 	
-	
-	<TMPL_IF LAYOUT>
+		<TMPL_IF LAYOUT>
 		<link rel="stylesheet" href="<TMPL_VAR LIB_PATH>/css/<TMPL_VAR LAYOUT>.css">
 	</TMPL_IF>
 	
@@ -36,200 +36,188 @@
 		<input type="hidden" id   = "page" name = "page" value="0">
 	<TMPL_ELSE>
 
-	<div class="box_right box_filter" >
+	<div class="box_right box_filter fbn-d-fltr-area" id='fbn_d_fltr_area' data-client-height="0px">
 		
-			<TMPL_LOOP custom_title>
-					<TMPL_VAR filter_title>
-					<TMPL_IF field_type_option>
-						<select <TMPL_VAR fun> id="<TMPL_VAR key>" name="<TMPL_VAR key>" >
-							<option value="0"> Select All</option>	
-							<TMPL_VAR value>
-						</select>
-					</TMPL_IF>
-			</TMPL_LOOP>
+		<TMPL_LOOP custom_title>
+				<TMPL_VAR filter_title>
+				<TMPL_IF field_type_option>
+					<select <TMPL_VAR fun> id="<TMPL_VAR key>" name="<TMPL_VAR key>" >
+						<option value="0"> Select All</option>	
+						<TMPL_VAR value>
+					</select>
+				</TMPL_IF>
+		</TMPL_LOOP>
+
+		<a  class	= 'fdn-d-fltr-ctrl visible-xs txt_size_18 clr_green' 
+		    id		= "fbn_d_fltr_ctrl"
+			data-id = "fbn_d_fltr_area" 
+			data-show-label = "Hide It" 
+			data-hide-label = "Show Filters" 
+			data-state      = "0"
 			
-			<!--- Search Filter off --->
-			
+			href    = "JavaScript:d_series.filterShowHideAction(this)"
+			><span class="fa-stack fa-lg">
+				<i class="fa fa-circle fa-stack-2x"></i>
+				<i class="fa fa-filter fa-stack-1x fa-inverse"></i>
+				</span>
+			</a>
+					
+		<div class="fbn-d-fltr-search">
+			<!---Search Filter off--->
 			<TMPL_IF search_filter_off>			
 				<input type="hidden" name="s_text" id="s_text" placeholder="Search text"  onKeyPress="JavaScript:d_series.searchAutoComplete();" value="" class="w_125" />			
 			<TMPL_ELSE>				
 				<TMPL_IF LIST_ARRAY>			
 					<label>Search by</label>								
 					<input type="text" name="s_text" id="s_text" placeholder="<TMPL_IF SEARCH_LABEL><TMPL_VAR SEARCH_LABEL><TMPL_ELSE>Search text</TMPL_IF>"  onKeyPress="JavaScript:d_series.searchAutoComplete();" value="" class="w_125" />					
-					<a class="button" href="JavaScript:d_series.setDeskStartAction();filter_data();"/>Go</a>										
+					<a class="button" href="JavaScript:d_series.setDeskStartAction();filter_data();">Go</a>										
 				<TMPL_ELSE>
 					<input type="hidden" name="s_text" id="s_text" placeholder="Search text"   value="" class="w_125" />			
 				</TMPL_IF>	
 			</TMPL_IF>
 			
-			<!--- Search Hidden Variables--->
-			
+			<!--- Search Hidden Variables--->			
 			<input type="hidden" name="s_text_hidden" id="s_text_hidden" onKeyPress="JavaScript:d_series.searchAutoComplete();" value="" />
-			
 			<input type="hidden" name="s_text_id" id="s_text_id"  value="" />
-			
 			<input type="hidden" name="is_s_text_type" id="is_s_text_type"  value="0" />
 			
+		</div> <!--end of search-->
 			
-			
-			<TMPL_LOOP custom_filter>	
-			
-					<TMPL_IF filter_option>		
-							
-							<font class="spliter">|</font>
-						
-							<TMPL_VAR field_name>
-							
-							<select id="<TMPL_VAR field_id>" name="<TMPL_VAR field_id>"
-							data-filter-type='CF'
-							onchange="d_series.setDeskStartAction();custom_filter();"  <TMPL_VAR HTML>>
-								
-								<TMPL_UNLESS NO_DEFAULT_OPTION>								
-									<option value=""><TMPL_VAR cus_default_label></option>
-								</TMPL_UNLESS>
-								
-								<TMPL_VAR option_value>								
-								
-							</select>
-					</TMPL_IF>
-					
-					<TMPL_IF multi_select>
-						
-						<TMPL_VAR field_name>
-						
-							<select id="<TMPL_VAR field_id>" name="<TMPL_VAR field_id>" 
-							data-filter-type='CF'
-							onchange="d_series.setDeskStartAction();d_series.setFilterMultipleValue('<TMPL_VAR field_id>');"   
-							class="selectpicker"  <TMPL_VAR HTML>  multiple>
-								<TMPL_UNLESS NO_DEFAULT_OPTION>								
-									<!--- <option value="-1"><TMPL_VAR cus_default_label></option> -->
-								</TMPL_UNLESS>
-								
-								<TMPL_VAR option_value>
-							</select>
-							 
-							<a 	class="button" id="go_multi_select"  name="go_multi_select"  
-								href="JavaScript:custom_filter();">Go</a>
-							<input type="hidden" name="<TMPL_VAR multi_value>" id="<TMPL_VAR multi_value>" 
-									data-filter-type='CF' value="";>
-						
-							
-					</TMPL_IF>
-					
-					
-					
-					<TMPL_IF search_text>		
-						<font class="spliter">|</font>
-						<input type="text" id="<TMPL_VAR field_id>"   name="<TMPL_VAR field_id>" placeholder="<TMPL_VAR placeholder>" onKeyPress="JavaScript:d_series.searchAutoComplete();" value="" class="w_125" />
-						
-						<input type="button" onclick="JavaScript:custom_filter();" value=" Go "class="button"/>
-					</TMPL_IF>
-					
-					
-					<TMPL_IF __LAST__>
-							<input type="hidden" name="CUSTOM_FILTER_COUNT" id="CUSTOM_FILTER_COUNT" 
-							 value="<TMPL_VAR __COUNTER__>"  />
-					</TMPL_IF>
-					
-			</TMPL_LOOP>	
+		<TMPL_LOOP custom_filter>	
+		
+			<TMPL_IF filter_option>
 				
-				<TMPL_IF is_date_filter>
-					
-						<font class="spliter">|</font>
-						
-						<label>From</label>
-						 <input type="text" name="s_date" id="s_date" value="" class="w_100" />
-						 
-						 <input type="hidden" name="s_date_hidden" id="s_date_hidden" value="" />
-						 
-						
-						<label>To</label>
-						 <input type="text" name="to_date" id="to_date" value="" class="w_100" />
-						 
-						 <input type="hidden" name="to_date_hidden" id="to_date_hidden" value="" />
-						 
-						 <span class="checkbox_wrapper"><input type="checkbox" id="is_check_date" name="is_check_date" value="1" /></span>
-						
-						<a class="button"  id="go_date"  name="go_date"  
-					    	href="JavaScript:d_series.setDeskStartAction();filter_data();">Go</a>
-						
-						
-						
-				<TMPL_ELSE>
-					<input type="hidden" id="is_check_date" name="is_check_date" value="1"  />
+				<TMPL_IF __first__>
+					<div class="fbn-d-fltr-dropdown">
 				</TMPL_IF>
-				
-				<TMPL_IF hide_pager>
-					
-					<input type="hidden"
-					       id   = "page" 
-					       name = "page"
-					       value="0">
-					
-				<TMPL_ELSE>
-				
-					<font class="spliter">|</font>				
-					
-						
-					<TMPL_IF custom_sort_by>
-						Sort by <select id="sort_by" name="sort_by" onchange="JavaScript:d_series.setDeskStartAction();filter_data();"  >
-								<option value="-1"><TMPL_IF CUSTOM_SORT_LABEL><TMPL_VAR CUSTOM_SORT_LABEL><TMPL_ELSE>Select Sort Option</TMPL_IF></option>
-								<TMPL_LOOP custom_sort_by>
-										<option value="<TMPL_VAR sort_value>"> <TMPL_VAR text_option></option>
-								</TMPL_LOOP>
-							</select>	
-					</TMPL_IF> 	
-					
-					<label>Show</label>
-					<select 
-						id       = "page" 
-						name     = "page" 
-						onchange = "JavaScript:d_series.setDeskStartAction();filter_data();"  class="FI_50" title="Rows">
-							
-						<TMPL_IF PAGER_OPTION>
-							<TMPL_VAR PAGER_OPTION>
-						<TMPL_ELSE>
-							<option value=5>5</option>
-							<option value=10>10</option>
-							<option value=20>20</option>
-							<option value=30>30</option>
-							<option value=40>40</option>
-							<option value=50>50</option>
-							<option value=75>75</option>													
-							<option value=100>100</option>												
-						</TMPL_IF>							
+					<label><TMPL_VAR field_name></label>							
+					<select id="<TMPL_VAR field_id>" name="<TMPL_VAR field_id>"
+					data-filter-type='CF'
+					onchange="d_series.setDeskStartAction();custom_filter();"  <TMPL_VAR HTML>>								
+						<TMPL_UNLESS NO_DEFAULT_OPTION>								
+							<option value=""><TMPL_VAR cus_default_label></option>
+						</TMPL_UNLESS>								
+						<TMPL_VAR option_value>
 					</select>
-					
-				</TMPL_IF>
-				
-					<font class="spliter">|</font>
-						
-<!---onclick="JavaScript:show_all('<TMPL_VAR PAGE_ID>=<TMPL_VAR APP_KEY>');"--->
-							<TMPL_UNLESS HIDE_SHOW_ALL>
-							
-								<a 	class="button tip tip_left" id="clr_filter"	   
-									href="JavaScript:d_series.clearFilter();d_series.freshDeskLoad();"
-								/><TMPL_VAR show_all_label></a><span class='tooltiptext'>Clear Filters</span>									   
-								<font class="spliter">|</font>
-								
-							</TMPL_UNLESS>
-				
-								<TMPL_IF is_add>							   
-											<a class="ficon" href="<TMPL_IF PAGE_LINK>?<TMPL_VAR PAGE_LINK><TMPL_ELSE>?<TMPL_VAR F_SERIES>=<TMPL_VAR APP_KEY></TMPL_IF><TMPL_IF DEFAULT_ADDON>&default_addon=<TMPL_VAR DEFAULT_ADDON></TMPL_IF>"><i class="fa fa-file-o clr_green"></i><TMPL_IF b_name><TMPL_VAR b_name><TMPL_ELSE><span>Add <TMPL_VAR TITLE></span></TMPL_IF></a>
-								</TMPL_IF>
-							
-								<TMPL_IF TOP_ACTION>
-																<TMPL_LOOP TOP_ACTION>
-																					<a class="<TMPL_VAR STYLE>" href="<TMPL_VAR ACTION>"><TMPL_VAR LABEL></a>
-																</TMPL_LOOP> 	
-								</TMPL_IF>
-							
-								<TMPL_IF is_export_file>
-									<a  id="export_id" name="export_id" class="ficon"  href="JavaScript:d_series.exportAsCSV();"><i class="fa fa-file-excel-o clr_green"></i><TMPL_VAR button_name></a>								
-								</TMPL_IF>				
-							
+			</TMPL_IF>
 			
-		</div>
+			<TMPL_IF multi_select>
+				<TMPL_IF __first__>
+					<div class="fbn-d-fltr-dropdown">
+				</TMPL_IF>				
+					<label><TMPL_VAR field_name></label>							
+					<select id="<TMPL_VAR field_id>" name="<TMPL_VAR field_id>" 
+					data-filter-type='CF'
+					onchange="d_series.setDeskStartAction();d_series.setFilterMultipleValue('<TMPL_VAR field_id>');"   
+					class="selectpicker"  <TMPL_VAR HTML>  multiple>
+						<TMPL_UNLESS NO_DEFAULT_OPTION>								
+							<!--- <option value="-1"><TMPL_VAR cus_default_label></option> -->
+						</TMPL_UNLESS>
+						
+						<TMPL_VAR option_value>
+					</select>
+						
+					<a 	class="button" id="go_multi_select"  name="go_multi_select"  
+						href="JavaScript:custom_filter();">Go</a>
+					<input type="hidden" name="<TMPL_VAR multi_value>" id="<TMPL_VAR multi_value>" 
+							data-filter-type='CF' value="">
+			</TMPL_IF>
+
+			<TMPL_IF search_text>		
+				<input type="text" id="<TMPL_VAR field_id>"   name="<TMPL_VAR field_id>" placeholder="<TMPL_VAR placeholder>" onKeyPress="JavaScript:d_series.searchAutoComplete();" value="" class="w_125" />						
+				<input type="button" onclick="JavaScript:custom_filter();" value=" Go "class="button"/>
+			</TMPL_IF>
+			
+			<TMPL_IF __LAST__>
+					<input type="hidden" name="CUSTOM_FILTER_COUNT" id="CUSTOM_FILTER_COUNT" 
+						value="<TMPL_VAR __COUNTER__>"  />
+					</div> <!--end of dropdown area-->
+			</TMPL_IF>
+				
+		</TMPL_LOOP>	
+				
+	<TMPL_IF is_date_filter>
+		<div class='fbn-d-fltr-date'>
+			<label>From</label>
+			<input type="text" name="s_date" id="s_date" value="" class="w_100" />						 
+			<input type="hidden" name="s_date_hidden" id="s_date_hidden" value="" />
+			
+			<label>To</label>
+			<input type="text" name="to_date" id="to_date" value="" class="w_100" />						 
+			<input type="hidden" name="to_date_hidden" id="to_date_hidden" value="" />						 
+			<span class="checkbox_wrapper"><input type="checkbox" id="is_check_date" name="is_check_date" value="1" /></span>
+			
+			<a class="button"  id="go_date"  name="go_date"  
+				href="JavaScript:d_series.setDeskStartAction();filter_data();">Go</a>		
+		</div>						
+	<TMPL_ELSE>
+		<input type="hidden" id="is_check_date" name="is_check_date" value="1"  />
+	</TMPL_IF>
+	
+	<TMPL_IF custom_sort_by>
+		<div class='fbn-d-fltr-sort'>
+			<label>Sort by</label>
+			<select id="sort_by" name="sort_by" onchange="JavaScript:d_series.setDeskStartAction();filter_data();"  >
+					<option value="-1"><TMPL_IF CUSTOM_SORT_LABEL><TMPL_VAR CUSTOM_SORT_LABEL><TMPL_ELSE>Select Sort Option</TMPL_IF></option>
+					<TMPL_LOOP custom_sort_by>
+							<option value="<TMPL_VAR sort_value>"> <TMPL_VAR text_option></option>
+					</TMPL_LOOP>
+			</select>
+		</div>			
+	</TMPL_IF> 	
+	
+	<TMPL_IF hide_pager>					
+		<input type="hidden"
+				id   = "page" 
+				name = "page"
+				value="0">
+		
+	<TMPL_ELSE>
+		<div class='fbn-d-fltr-pager'>
+			<label>Show</label>
+			<select 
+				id       = "page" 
+				name     = "page" 
+				onchange = "JavaScript:d_series.setDeskStartAction();filter_data();"  class="FI_50" title="Rows">
+					
+				<TMPL_IF PAGER_OPTION>
+					<TMPL_VAR PAGER_OPTION>
+				<TMPL_ELSE>
+					<option value='5'>5</option>
+					<option value='10'>10</option>
+					<option value='20'>20</option>
+					<option value='30'>30</option>
+					<option value='40'>40</option>
+					<option value='50'>50</option>
+					<option value='75'>75</option>													
+					<option value='100'>100</option>												
+				</TMPL_IF>							
+			</select>
+		</div>					
+	</TMPL_IF>
+	
+	<TMPL_UNLESS HIDE_SHOW_ALL>
+		<div class='fbn-d-fltr-clear'>						
+			<a 	class="button tip tip_bottom id="clr_filter"	   
+				href="JavaScript:d_series.clearFilter();d_series.freshDeskLoad();">
+			<TMPL_VAR show_all_label></a><span class='tooltiptext'>Clear Filters</span>
+		</div>	
+	</TMPL_UNLESS>
+
+		<div class='fbn-d-fltr-top-axn'>
+			<TMPL_IF is_add>							   
+				<a class="ficon" href="<TMPL_IF PAGE_LINK>?<TMPL_VAR PAGE_LINK><TMPL_ELSE>?<TMPL_VAR F_SERIES>=<TMPL_VAR APP_KEY></TMPL_IF><TMPL_IF DEFAULT_ADDON>&default_addon=<TMPL_VAR DEFAULT_ADDON></TMPL_IF>"><i class="fa fa-file-o clr_green"></i><TMPL_IF b_name><TMPL_VAR b_name><TMPL_ELSE><span>Add <TMPL_VAR TITLE></span></TMPL_IF></a>
+			</TMPL_IF>
+			<TMPL_IF TOP_ACTION>
+				<TMPL_LOOP TOP_ACTION>
+					<a class="<TMPL_VAR STYLE>" href="<TMPL_VAR ACTION>"><TMPL_VAR LABEL></a>
+				</TMPL_LOOP> 	
+			</TMPL_IF>
+			<TMPL_IF is_export_file>
+					<a  id="export_id" name="export_id" class="ficon"  href="JavaScript:d_series.exportAsCSV();"><i class="fa fa-file-excel-o clr_green"></i><TMPL_VAR button_name></a>								
+			</TMPL_IF>	
+		</div> <!---end of filter top action-->
+	</div> <!--end of filter area-->
 </TMPL_IF>
 		
 	<TMPL_IF SUMMARY_FRAME>		
@@ -659,6 +647,9 @@
 			
 			// bulk action area
 			d_series.setBulkActionArea({'rows':Number(G.$('pager_records').dataset.pager)});
+
+			// set filter area height
+			d_series.setFilterAreaHeight();
 							
 		}); // preload 
 			

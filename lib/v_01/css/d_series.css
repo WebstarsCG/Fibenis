@@ -1,0 +1,160 @@
+.fbn-d-fltr-search,
+.fbn-d-fltr-dropdown,
+.fbn-d-fltr-date,
+.fbn-d-fltr-sort,
+.fbn-d-fltr-pager,
+.fbn-d-fltr-clear,
+.fbn-d-fltr-top-axn{
+    display: inline-block;
+}
+
+
+@media only screen and (max-width: 768px){
+
+        .fbn-d-fltr-area {
+        background-color: #f1f1f1;
+        border-radius: 10px;
+        bottom: 0%;
+        box-shadow: 0px 0px 6px #aaa;
+        left: 0%;
+        margin: 3%;
+        padding: 3%;
+        position: fixed;
+        transition: bottom 0.5s linear;
+        width: 94%;
+        z-index: 1;
+    }
+
+    .fbn-d-fltr-area-show{
+        bottom:0%;
+    }
+
+    .fbn-d-fltr-area-hide{
+        bottom:-150%;
+    }
+
+    .fbn-d-fltr-area .button{
+        height:3.6rem !important;
+    }
+
+    .fdn-d-fltr-ctrl{
+        position: absolute;
+        top: -5rem;
+        right: 0px;   
+    }
+
+    /* section */
+    .fbn-d-fltr-search,
+    .fbn-d-fltr-dropdown,
+    .fbn-d-fltr-date,
+    .fbn-d-fltr-sort,
+    .fbn-d-fltr-pager,
+    .fbn-d-fltr-clear,
+    .fbn-d-fltr-top-axn{
+        width:100%;
+    }
+
+    /* search */
+    .fbn-d-fltr-search label{
+        display:none;
+    }
+
+    .fbn-d-fltr-search input{
+        width:90% !important;
+    }
+
+    .fbn-d-fltr-search a,
+    .fbn-d-fltr-dropdown a,
+    .fbn-d-fltr-date a{        
+        display: inline-block;
+        height: 3.6rem !important;
+        text-align: center;
+        width: 9% !important;
+    }
+    
+    /* dropdown */
+    .fbn-d-fltr-dropdown label,
+    .fbn-d-fltr-dropdown select{
+        display: block;
+    }
+
+    .fbn-d-fltr-dropdown label{
+        margin-bottom   : 0px;
+        margin-top      : 0.75rem;
+        text-align      : left;
+    }
+
+    .fbn-d-fltr-dropdown select{
+        width           : 100%;
+    }
+
+    .fbn-d-fltr-dropdown .bootstrap-select{
+        width:90% !important;
+    }
+
+    .fbn-d-fltr-dropdown label br{
+        display: none;
+    }
+
+    .fbn-d-fltr-date{
+        margin-top:0.75rem;
+    }
+
+    .fbn-d-fltr-date label:nth-child(1){
+        display:none;
+    }
+
+    .fbn-d-fltr-date input[type="text"]{
+        width:36% !important;
+    }
+
+    .fbn-d-fltr-date .checkbox_wrapper{
+        text-align: center;
+        width:10% !important;
+    }
+
+    .fbn-d-fltr-sort,
+    .fbn-d-fltr-pager{
+        display     : inline-block;
+        text-align  : left;
+        width       : 100%;
+    }
+
+    .fbn-d-fltr-sort label,
+    .fbn-d-fltr-pager label{
+        margin-bottom: 0px;
+        margin-top   : 0.75rem;
+    }
+
+    .fbn-d-fltr-sort label,
+    .fbn-d-fltr-pager label,
+    .fbn-d-fltr-sort select,
+    .fbn-d-fltr-pager select{
+        display: block;
+        margin-bottom: 0px;
+        width:100%;
+    }
+
+    .fbn-d-fltr-clear{
+        display: block;
+        margin-top   : 0.75rem;
+    }
+
+    .fbn-d-fltr-clear a{
+        display: block;
+        text-align: center;
+        width:100%;
+    }
+
+    .fbn-d-fltr-top-axn a {
+        border: 1px solid green !important;
+        display: inline;       
+        float: left;
+        height: auto;
+        margin-top: 0.75rem;
+        padding: 1rem 0 1rem 0;
+        text-align: center;
+        width: 48.5%;
+    }
+
+}
