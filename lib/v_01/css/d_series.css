@@ -59,6 +59,7 @@
     .fbn-d-fltr-search,
     .fbn-d-fltr-dropdown,    
     .fbn-d-fltr-dropdown select,
+    .fbn-d-fltr-dropdown .bootstrap-select,
     .fbn-d-fltr-date,
     .fbn-d-fltr-sort,
     .fbn-d-fltr-sort label,
@@ -73,8 +74,7 @@
         width           : 100%;
     }
 
-    .fbn-d-fltr-search input,
-    .fbn-d-fltr-dropdown .bootstrap-select{
+    .fbn-d-fltr-search input{
         width           : 90% !important;
     }
 
@@ -154,6 +154,15 @@
         padding: 1rem 0 1rem 0;
         text-align: center;
         width: 48.5%;
+    }
+
+    .fbn-d-fltr-dropdown .dropdown-menu>.active > a, 
+    .fbn-d-fltr-dropdown .dropdown-menu>.active>a:focus, 
+    .fbn-d-fltr-dropdown .dropdown-menu>.active>a:hover {
+        color: #fff;
+        background-color: var(--primary-color);
+        width: 100% !important;
+        text-align: left;
     }
 
 }
