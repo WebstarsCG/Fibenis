@@ -831,9 +831,14 @@
 											$temp['is_multistate'] = @$value['is_multistate'];
 											$temp['maxstate'] 	   = @$value['maxstate'];
 											foreach($temp['options'] as $cb_key=>$cb_value){
+												
 												$temp['options'][$cb_key]['is_multistate']='_S_0';
-											}
-									}
+												if(@$value['change_action']){
+													$temp['options'][$cb_key]['change_action']=@$value['change_action'];
+												}
+											} // end of option
+
+									} // if multistate
 									
 								#print_r($temp['options']);									
 									

@@ -1104,19 +1104,19 @@
 						<span class="label"><TMPL_VAR field_name></span>
 						<span class=value id="element_area_<TMPL_VAR FIELD_ID>" >	
 							<TMPL_LOOP OPTIONS><input type="checkbox"
-									   name="<TMPL_VAR __counter__>" data-prefix="<TMPL_VAR VALUE>" 
+									   name="<TMPL_VAR VALUE>_<TMPL_VAR __counter__>" data-prefix="<TMPL_VAR VALUE>" 
 									   
 									   <TMPL_IF IS_MULTISTATE>									   
 										   value="<TMPL_VAR VALUE><TMPL_VAR IS_MULTISTATE>" 
 										   data-touch=0 
 										   class="checkbox checkbox_multistate" 
-										   onchange="checkbox_multistate_action(this)"									   
+										   onchange="checkbox_multistate_action(this);<TMPL_IF CHANGE_ACTION><TMPL_VAR CHANGE_ACTION>(this);</TMPL_IF>"									   
 									   <TMPL_ELSE>
 										   value="<TMPL_VAR VALUE>" 										 
 										   class="checkbox"	
 											onchange="aggregate_checkbox(this)"											   
 									   </TMPL_IF>
-									   id="<TMPL_VAR __counter__>"><label><TMPL_VAR LABEL></label></TMPL_LOOP>	
+									   id="<TMPL_VAR VALUE>_<TMPL_VAR __counter__>"><label><TMPL_VAR LABEL></label></TMPL_LOOP>	
 						<!--- set default-->
 								    <span class="red_star"><TMPL_IF is_mandatory>*</TMPL_IF></span>
 									<TMPL_IF hint><div><TMPL_VAR hint></div></TMPL_IF>
