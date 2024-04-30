@@ -227,11 +227,11 @@
 									      
 										'field_id' => 'cf4', // 
 										
-										'filter_type' =>'multi_select', 
+										'filter_type' =>'option_list', 
 												    
 										'option_value'=> $G->option_builder_cache('user_info','id,get_user_internal_name(id)'," WHERE is_active=1"),
 							    
-										'html'=>'  title="Select Type"   data-width="160px"  ',
+										'html'=>'  title="Select Type"  class="selectpicker"  data-width="160px" data-live-search="true"  ',
 								    
 										'cus_default_label'=>'Show All',
 							    
@@ -336,7 +336,4 @@
 		);
 	
 							
-?>	
-	
-    
-	
+?>
