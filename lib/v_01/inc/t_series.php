@@ -53,9 +53,7 @@
 		
 		
 		# template
-		
-		
-		
+				
 		if((@$T_SERIES['template']) || (@$T_SERIES['template_content'])){
 					
 				// lockfile
@@ -63,13 +61,14 @@
 				$T_SERIES['temp']['file'] = $COACH['terminal_path']."/cache/$PAGE_CODE"."_".$T_SERIES['temp']['key'].".html";	
 				
 				if(is_file($T_SERIES['temp']['file']) && 
-					((@$_GET['clear_cache']!=1) && (@$T_SERIES['is_cc']!=1))){					
-				
-					$fh  							= fopen($T_SERIES['temp']['file'],'r') or "Error";
-					$T_SERIES['temp']['content']    = fread($fh, filesize($T_SERIES['temp']['file']));
-					fclose($fh);
+					((@$_GET['clear_cache']!=1) && (@$T_SERIES['is_cc']!=1))){				
+						
 					
-					$PAGE_INFO	= $T_SERIES['temp']['content'];
+						$fh  							= fopen($T_SERIES['temp']['file'],'r') or "Error";
+						$T_SERIES['temp']['content']    = fread($fh, filesize($T_SERIES['temp']['file']));
+						fclose($fh);
+					
+						$PAGE_INFO	= "OK";					
 					
 				}else{				
 				
@@ -95,20 +94,18 @@
 					
 					# output to global var
 					
-					$PAGE_INFO	= $T->Output();
+					$T_SERIES['temp']['created_content'] = $T->Output();					
 					
-					if(@$T_SERIES['cache_off']!=1){
-							// fseries to temp
-							$fh = fopen($T_SERIES['temp']['file'],'w') or "Error";
-							fputs($fh,$PAGE_INFO);
-							fclose($fh);						
-					} // 
+					// fseries to temp
+					$fh = fopen($T_SERIES['temp']['file'],'w') or "Error";
+					fputs($fh,$T_SERIES['temp']['created_content']);
+					fclose($fh);	
 					
+					$PAGE_INFO = "Ok";
 					
-				}
+				} // fresh case			
 				
-				
-		}
+		} // is template content exists
 		
 		# save
 		$param = array( 'user_id'    => $USER_ID,
@@ -119,7 +116,7 @@
 				
 				save_content(['t_series'=>$T_SERIES,
 					      'lib_path'=>$LIB_PATH,
-					      'content' =>$PAGE_INFO
+					      'content' =>$T_SERIES['temp']['created_content']
 					      ]);
 				
 				$param['action_type'] = 'TSAV';
@@ -128,6 +125,7 @@
 		}
 		
 		$G->set_system_log($param);
+		
 		
 				
 		// build template
@@ -613,6 +611,5 @@
 				
 				
 		} // end
-		
-		
+				
 ?>
