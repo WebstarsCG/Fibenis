@@ -1,15 +1,46 @@
 <?PHP
-        $key        	= @$_GET['key'];
+        $t_series       = ['filter'=>'','modes'=>['A','a'],'is_valid_key'=>1,'wm'=>'',];	
+		$key        	= @$_GET['key'];
+
+		if(!$key){
+			
+			http_response_code(400);
+			echo $G->sendContentTypeJSON(['status'=>false,'message'=>"Give the entity code in key param to export the entity attributes."]);
+			exit();
+
+		}else{
+
+			$key = $G->getCleanAlphaNum($key);
+
+			$t_series['is_valid_key'] = $G->get_one_columm(['table'		  => 'entity',
+															'field'		  => 'count(*)',
+			                                                'manipulation'=> " WHERE code='$key' and is_lib=0"]	);
+			if($t_series['is_valid_key']==0){
+				http_response_code(400);
+				echo $G->sendContentTypeJSON(['status'=>false,'message'=>"The given entity_code is not a valid one"]);
+				exit();
+			}
+
+		} // end
 		
-		$t_series      = ['filter'=>'','wm'=>''];		
+		
+		$t_series['wm'] = @$_GET['wm'] ?? '';
     																														
 		if(isset($_GET['tokens'])){			
 			$t_series['filter'] =  set_filter($_GET['tokens']);			
 		}
-		
-		$t_series['wm'] = @$_GET['wm'] ?? '';
-		
-		
+
+		// mode
+		if($t_series['wm']){
+
+			if (in_array($t_series['wm'],$t_series['modes'])==false) {
+				http_response_code(400);
+				echo $G->sendContentTypeJSON(['status'=>false,'message'=>"The given write mode is not a valid one"]);
+				exit();
+			}
+
+		} // end
+
         $T_SERIES       = array(
 		
 								'table'	=>	'entity',
@@ -100,32 +131,25 @@
 								'table'=> ' entity_child_base',
 								'key_filter'=>" AND entity_code='$key' AND dna_code='EBAT' 
 												$t_series[filter]",
-								'show_query'=>0
+								'show_query'=>0,
+								
 
 							),
 
 	),	
 								
 								
-								'key_id' => 'code',
-								
-								'key_filter'=> '',
-								
-								
-								
-				  
-													'template'       => dirname(__FILE__).'/t.html',
+		'key_id' 	=> 'code',								
+		'key_filter'=> '',								
+		'is_cc'		=>1,
+		'template'	=> dirname(__FILE__).'/t.html',													// save data 
 																																
-																																// save data 
-																																
-		'save_as'=> array(
-																																		
-						array('type'	 => 'xml',
-						'file_name'=>"entity_export_".$key."_".time(),																				
-						'path'	 =>  'csv/'																													
-						)	
-																																				
-				)
+		'save_as'	=> array(																																		
+								array(	'type'	 	=> 'xml',
+											'file_name' =>"entity_export_".$key."_".time(),																				
+											'path'	 	=>  'csv/'																													
+									)																												
+							)
 
 	);
 		
