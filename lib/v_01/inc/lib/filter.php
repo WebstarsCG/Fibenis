@@ -148,6 +148,19 @@
 		$FILTER['alpha_in'] = function($din){
 			return preg_replace("/[^a-zA-Z]/i",'',$din);
 		};
+
+		$FILTER['csv_to_qcsv'] = function($din){ 
+										
+			if($din!=null && strlen($din)>0){
+
+				return implode(',',
+							   array_map(function($item){ return "'$item'";  },
+							  			 explode(',',$din))
+						);  
+			}else{
+				return '';
+			}     
+		};
 		
 		
 		
