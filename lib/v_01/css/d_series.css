@@ -41,13 +41,16 @@
     }
 
     .fbn-d-fltr-search a,
-    .fbn-d-fltr-dropdown a,
     .fbn-d-fltr-date a,
     .fbn-d-fltr-area .button,
     .fbn-d-fltr-area input[type="text"],
     .fbn-d-fltr-area select{
         font-size:1.45rem !important;
         height  : 3.7rem !important;
+    }
+    
+    .fbn-d-fltr-dropdown a{
+        font-size:inherit !important;
     }
 
     .fbn-d-fltr-area label{
@@ -59,7 +62,6 @@
     .fbn-d-fltr-search,
     .fbn-d-fltr-dropdown,    
     .fbn-d-fltr-dropdown select,
-    .fbn-d-fltr-dropdown .bootstrap-select,
     .fbn-d-fltr-date,
     .fbn-d-fltr-sort,
     .fbn-d-fltr-sort label,
@@ -73,7 +75,8 @@
     .fbn-d-fltr-clear a{
         width           : 100%;
     }
-
+    
+    .fbn-d-fltr-dropdown .bootstrap-select,
     .fbn-d-fltr-search input{
         width           : 90% !important;
     }
