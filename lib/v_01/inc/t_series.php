@@ -68,7 +68,7 @@
 						$T_SERIES['temp']['content']    = fread($fh, filesize($T_SERIES['temp']['file']));
 						fclose($fh);
 					
-						$PAGE_INFO	= "OK";					
+						$PAGE_INFO	= $T_SERIES['temp']['content']; 					
 					
 				}else{				
 				
@@ -101,7 +101,7 @@
 					fputs($fh,$T_SERIES['temp']['created_content']);
 					fclose($fh);	
 					
-					$PAGE_INFO = "Ok";
+					$PAGE_INFO = $T_SERIES['temp']['created_content'];
 					
 				} // fresh case			
 				
@@ -116,7 +116,7 @@
 				
 				save_content(['t_series'=>$T_SERIES,
 					      'lib_path'=>$LIB_PATH,
-					      'content' =>$T_SERIES['temp']['created_content']
+					      'content' =>$PAGE_INFO
 					      ]);
 				
 				$param['action_type'] = 'TSAV';
