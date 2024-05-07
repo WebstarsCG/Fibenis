@@ -139,6 +139,7 @@
 								'type'                => 'heading'
 						      ),
 							  
+							  
 							  '11'=>array(
 								'field_name'          => 'Entity',                                                                
 								
@@ -162,6 +163,36 @@
 
 								 
 							    ),	
+
+							'12'=>array(
+									'field_name'          => 'Access Roles',
+									
+									'type'                => 'heading'
+								  ),	
+
+							'13'=>array(
+									'field_name'          => 'Entity',                                                                
+									
+									'field_id'            => 'ea_value',				       
+									
+									'type' 	              => 'list_left_right',
+									
+									'is_mandatory'        => 1,
+							
+									'child_table'         => 'eav_addon_varchar', // child table 
+									
+									'parent_field_id'     => 'parent_id',         // parent field
+												 
+									'child_attr_field_id' => 'ea_code',   	      // attribute code field
+									
+									'child_attr_code'     => 'CHRL',          // attribute code
+									
+									'option_data'  => $G->option_builder("user_role","sn,ln"," order by sn ASC"),
+																		
+									'input_html'   =>  ' class="w_200" rows="2"  style="height:200px !important"  ',
+	
+									 
+								),	
 						    
 						      
 						       
@@ -201,7 +232,9 @@
 				       
 				    'avoid_trans_key_direct' => 1,
 				    
-				    'divider' => 'tab'
+				    'divider' => 'tab',
+
+					'is_cc'=>1
 				    
                                 
 			);

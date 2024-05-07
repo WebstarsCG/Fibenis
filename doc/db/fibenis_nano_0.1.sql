@@ -1,3 +1,30 @@
+-- 05MAR2024
+DROP FUNCTION IF EXISTS get_user_role_domain_access;
+DELIMITER $$
+CREATE FUNCTION get_user_role_domain_access(temp_user_id INT,temp_domain_name TEXT) RETURNS TINYINT
+BEGIN
+    RETURN (SELECT count(*) FROM user_info WHERE id=temp_user_id AND FIND_IN_SET(
+			(SELECT 
+					sn 
+				FROM 
+					user_role 
+				WHERE 
+					user_role.id=user_info.user_role_id),
+			(SELECT 
+					get_eav_addon_varchar(ec.id,'CHRL') 
+			 	FROM 
+					entity_child as ec 
+				WHERE 
+					entity_code='CH' AND 
+					get_eav_addon_varchar(ec.id,'CHDN')=temp_domain_name)
+		)
+	);
+END$$
+DELIMITER ;
+
+-- addition of coach role access
+INSERT INTO entity_attribute (entity_code, code, sn, ln, line_order, creation, user_id, timestamp_punch) VALUES
+                             ('CH', 'CHRL', 'Coach Role Access ', 'Coach Role Access ', '10.00',now(), 2,now());
 -- 03APR2024
 ALTER TABLE user_role ADD session_time INT NOT NULL DEFAULT '0' AFTER home_page_url; 
 
