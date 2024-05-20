@@ -70,7 +70,7 @@ Verify Apache installation by visiting your server’s public IP address in your
 ## Step 3 — Installing PHP
 1. Install PHP and required modules:
     ```sh
-    sudo apt install php libapache2-mod-php php-mysql
+    sudo apt install php php-cgi php-mysqli php-pear php-mbstring libapache2-mod-php php-common php-phpseclib php-mysql -y
     ```
 2. Adjust Apache to prefer PHP files:
     ```sh
