@@ -79,7 +79,7 @@
 					
 					
 					//parent field id
-					$F_SERIES['data']['lo']=['field_name'=>'Parent Id',
+					$F_SERIES['data']['LO']=['field_name'=>'Parent Id',
 												  'field_id' => 'line_order',                                                               
 												  'type' => 'hidden', 
 												  'attr'=>['value'=>$parent_id],
