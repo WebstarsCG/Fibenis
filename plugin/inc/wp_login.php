@@ -420,26 +420,34 @@
 				$set_otp_query = "UPDATE user_info SET password='$password' WHERE $access_lock = '$access_key' ";					
 				$exe_set_otp_query = $rdsql->exec_query($set_otp_query,'Error! CK Update');
 				
-				$login_user_id = $G->get_one_column(['table'=>'user_info','field'=>'is_internal',
-														  'manipulation'=>" WHERE $access_lock = '$access_key' "]);
+				$login_user_info = json_decode($G->get_one_column(['table'=>'user_info','field'=>"JSON_OBJECT('is_internal',is_internal,'id',id)",
+														  'manipulation'=>" WHERE $access_lock = '$access_key' "]));
 				
-				send_gate_access_code(['access_code'	=> $new_key,
-									   'access_key' 	=> $access_key,
-									   'is_smtp_mail'	=> $PV['is_smtp_mail'],
-									   'lock_type'		=> $access_lock_type,
-									   'g'				=> $G,
-									   'sg'				=> $SG,
-									   'lwp'			=> $LWP										   
-									]);
-								
-				$otp_signin_log = array('user_id'		=> $login_user_id,
-										  'page_code'	=>  $page_code,
-										  'action_type'	=>  $action_type,
-										  'action'		=> 'Sign In by '.$access_key);
-				
-				$G->set_system_log($otp_signin_log);
-				 
-				echo '{"status":"1","message":"Sign In "}';
+				$user_role_domain_access = $G->get_one_column(['field'=>"get_user_role_domain_access($login_user_info->id,
+																									'$COACH[domain_name]')"]);										  
+
+				if($user_role_domain_access==1){
+
+					send_gate_access_code(['access_code'	=> $new_key,
+										'access_key' 	=> $access_key,
+										'is_smtp_mail'	=> $PV['is_smtp_mail'],
+										'lock_type'		=> $access_lock_type,
+										'g'				=> $G,
+										'sg'				=> $SG,
+										'lwp'			=> $LWP										   
+										]);
+									
+					$otp_signin_log = array('user_id'		=> $login_user_info->id,
+											'page_code'	=>  $page_code,
+											'action_type'	=>  $action_type,
+											'action'		=> 'Sign In by '.$access_key);
+					
+					$G->set_system_log($otp_signin_log);
+					
+					echo '{"status":"1","message":"Sign In "}';
+				}else{
+					echo '{"status":"0","message":"Sorry, it seems the user doesn\'t have the access to this domain <b>'.$COACH['domain_name'].'</b>"}';
+				}
 				
 			}else if($no_row[0]==0){	
 
