@@ -863,6 +863,9 @@
 				set_otp_interval();
 				
 				$('#buttonChangeEmail').removeClass('hide');	
+
+				G.$('login_welcome_content').classList.remove('show');
+				G.$('login_welcome_content').classList.add('hide');
 				
 			}else if(response.status==0){	
 					
@@ -892,7 +895,10 @@
 			
 			hide_otp();
 			
-			$('#buttonChangeEmail').addClass('hide');						
+			$('#buttonChangeEmail').addClass('hide');	
+			
+			G.$('login_welcome_content').classList.add('show');
+			G.$('login_welcome_content').classList.show('hide');
 	}
 	
 	//check otp interval
