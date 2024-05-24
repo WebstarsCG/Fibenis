@@ -149,6 +149,10 @@
 					foreach ($lv['gate_config'] as $gate_config) {
 						$config[$gate_config]	= @$PV['MASTER'][$gate_config] ?$PV['MASTER'][$gate_config]:get_config($gate_config);
 					}
+
+					foreach (['has_welcome_content'] as $gate_config) {
+						$config[$gate_config]	= @$PV['MASTER'][$gate_config]?get_config($gate_config):'';
+					}
 					
 					// content					
 					$c 		= new Template(array("filename" => $lv[$COACH['step_in']],
@@ -159,6 +163,7 @@
 						$c->AddParam('IS_OPEN',$config['is_open']);
 						$c->AddParam('IS_OTP',$config['is_otp']);
 						$c->AddParam('IS_OTP_MOBILE',$config['is_otp_mobile']);
+						$c->AddParam('HAS_WELCOME_CONTENT',$config['has_welcome_content']);
 						$c->AddParam('TERMINAL_PATH',$COACH['terminal_path']);
 						
 						$lv['entry_gates_text'] = $config['entry_gates'];
