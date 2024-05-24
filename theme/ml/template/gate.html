@@ -150,6 +150,8 @@
 							<span id="lbl-sign-in" class="glyphicon glyphicon-log-in" aria-hidden="true"></span>&nbsp;
 							<span id="lbl-sign-in-txt" >Sign In with E-mail OTP</span>
 							</button>
+
+							<div id="login_welcome_content" class="<TMPL_IF HAS_WELCOME_CONTENT>show<TMPL_ELSE>hide</TMPL_IF>"><TMPL_VAR HAS_WELCOME_CONTENT></div>
 							<button class="btn  btn-success btn-sm hide"
 								type="submit"
 								tabindex="4"
