@@ -343,33 +343,24 @@
 						
 	 }	
 	 
-	 
-	  $P_V['WHERE_FILTER']='';
-	  
-	 $get_cus_filter =  get_cus_filter();
-	  
-	 $P_V['WHERE_FILTER'].= $get_cus_filter[0];
-	  
-	
-	 
-	 
 
-		$WHERE_FILTER= where_filter(array(
-									
-									'check_field'  => @$D_SERIES['check_field'], 
-									
-									'search_filter' => array('search_field' => @$D_SERIES['search_field'],
-								
-								         'search_id'	=> @$D_SERIES['search_id']) 
-								)
-							);
+	// filter 
+	$P_V['WHERE_FILTER']	='';	  
 	
+	// custom filter	
+	$get_cus_filter 		=  get_cus_filter();
 	
-	$P_V['WHERE_FILTER'].=  @$D_SERIES['key_filter'];	
+	// search filter
+	$WHERE_FILTER= where_filter([	'check_field'  	=> @$D_SERIES['check_field'], 									
+									'search_filter' => array('search_field' => @$D_SERIES['search_field'],								
+									'search_id'		=> @$D_SERIES['search_id']) 
+								]);
 	
-		$P_V['WHERE_FILTER'].=$WHERE_FILTER[0];	
-
-		$G->get_cookies($P_V['cookies_id'].'_where_filter',$P_V['WHERE_FILTER'],$P_V['WHERE_FILTER'],@$P_V['is_cookies_expire']);					
+	// aggregate filters
+	$P_V['WHERE_FILTER'].=  @$D_SERIES['key_filter'].' '.$WHERE_FILTER[0].' '.$get_cus_filter[0]; 
+	 
+	// set cookies
+	$G->get_cookies($P_V['cookies_id'].'_where_filter',$P_V['WHERE_FILTER'],$P_V['WHERE_FILTER'],@$P_V['is_cookies_expire']);					
 		
 		
 		$SORT_FIELD = array();
@@ -2065,22 +2056,24 @@
 					       }
 					       
 					       if(@$filter_item['filter_type'] == 'multi_select'){
-							$hidden_field = $P_V['field_id'].'_hidden' ;
 							
+							$hidden_field = $P_V['field_id'].'_hidden' ;
+							$logic_operator = (@$filter_item['is_or'])?' OR ':" AND ";
+
 							//echo $get_value.'====='.$hidden_field.'------<br>';
 						       if($get_value > -1){
-							 $WHERE_FILTER.= ' AND '. $P_V['filter_by'].' IN('."$get_value_neutralized)";
-							 //$PREE_DATA.= " $('#$P_V[field_id]').multiselect('select', [$get_value]);";
-							 
-							 $PREE_DATA.= "$('#$P_V[field_id]').selectpicker('val',[$get_value]);";
-							 
-							 $PREE_DATA.= "E_V_PASS('$hidden_field','$get_value');";
+									$WHERE_FILTER.= $logic_operator. $P_V['filter_by'].' IN('."$get_value_neutralized)";
+									//$PREE_DATA.= " $('#$P_V[field_id]').multiselect('select', [$get_value]);";
+									
+									$PREE_DATA.= "$('#$P_V[field_id]').selectpicker('val',[$get_value]);";
+									
+									$PREE_DATA.= "E_V_PASS('$hidden_field','$get_value');";
 						       }
 						       elseif($get_value == -1){
 							   $PREE_DATA.= "E_V_PASS('$hidden_field','$get_value');";		
 						       }						
 						       else{
-							   $WHERE_FILTER.=$P_V['default_option']? 'AND '.$P_V['filter_by'].'=\''.$P_V['default_option'].'\'':'';
+							   $WHERE_FILTER.=$P_V['default_option']? $logic_operator.$P_V['filter_by'].'=\''.$P_V['default_option'].'\'':'';
 								       
 							   $PREE_DATA.=$P_V['default_option']? "E_V_PASS('$hidden_field','$P_V[default_option]');":'';		
 								       
