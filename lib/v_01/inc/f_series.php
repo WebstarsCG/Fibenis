@@ -1316,7 +1316,7 @@
 						
 						if($value['type']=='checkbox'){
 							
-							@$_POST["X".$key]=implode(',',@$_POST["X".$key]);
+							@$_POST["X".$key]=(@$_POST["X".$key])?implode(',',@$_POST["X".$key]):'';
 						}
 						
 						# avoid read only
