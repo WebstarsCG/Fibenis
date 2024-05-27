@@ -52,6 +52,8 @@
 				
 		$COACH['name_hash']     =   md5($COACH['name']);
 	
+		# SET COACH
+		$G->set_coach($COACH);
 		
 		# actions
 		
