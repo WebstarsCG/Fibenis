@@ -162,7 +162,7 @@
 							
 							<a class="btn  btn-default col-md-12 col-xs-12 clr_gray_a pad_5_tb align_CM hide"
 								type="button"
-								href="JavaScript:check_resend_otp(G.$('inputEmail'))"
+								href="JavaScript:check_resend_otp(G.$('inputEmail'),0)"
 								tabindex="5"
 								id="buttonResendOTP">							
 							Resend OTP
@@ -174,9 +174,9 @@
 								tabindex="6"
 								href="JavaScript:change_email_otp();"
 								id="buttonChangeEmail">
-							<span id="lbl-sign-in" class="glyphicon glyphicon-envelope" aria-hidden="true"></span>&nbsp;
-						
-							</a>
+							<span id="lbl-sign-in" 
+								  class="glyphicon glyphicon-<TMPL_IF IS_OTP_MOBILE>phone<TMPL_ELSE>envelope</TMPL_IF>" aria-hidden="true"></span>&nbsp;
+									<TMPL_IF IS_OTP_MOBILE>Change Mobile No.<TMPL_ELSE>Change Email</TMPL_IF></a>
 						</div>
 						<TMPL_IF IS_OTP_MOBILE>
 							<script>
