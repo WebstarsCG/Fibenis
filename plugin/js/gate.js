@@ -941,20 +941,28 @@
 	} // end
 	
 	// resend otp
-	function check_resend_otp(element){
+	// is_otp_type = 0->Email, 1->Mobile
+	function check_resend_otp(element,is_otp_type){
 		
-		var lv = {};
-		
-		if(check_mail(element)==true){
+		var lv = {'check_element':false,'post_element':'mobile'};
+
+		if(is_otp_type==1){
+			lv.check_element	= check_mobile(element);
+			lv.post_element 	= 'mobile';
+		}else{
+			lv.check_element	= check_mail(element);
+			lv.post_element 	= 'email';
+		}
+
+		if(lv.check_element==true){
+
 			hide_otp();
-			G.showLoader('Resending OTP');
-			
-			lv.req = '&user_email='+element.value+
-					 '&action=ROTP&request=1';
-								
-			temp_gate.element = element;
+			G.showLoader('Resending OTP');			
+			lv.req 				= `&user_${lv.post_element}=${element.value}&action=ROTP&request=1`;								
+			temp_gate.element 	= element;
 			ajxrqst.set_url(lv.req);
 			ajxrqst.send_post(check_resend_otp_response);
+		
 		}
 		
 	} // end
@@ -1013,6 +1021,7 @@
 		lv.element_signin = document.getElementById('buttonSignIn');
 		lv.element_signin_txt = document.getElementById(`lbl-sign-in-txt`);
 		lv.element_form_signin = document.getElementById('form-sign-in');
+		lv.element_form_resend_otp = document.getElementById('buttonResendOTP');
 
 		lv.element.setAttribute('placeholder','Give your Mobile No.');
 		lv.element.setAttribute('onkeypress',"return PR_All_Numeric(event,'',this);");
@@ -1028,6 +1037,9 @@
 		lv.element_signin_txt.innerHTML = "Sign In with Mobile";	
 		lv.element_signin.setAttribute('onclick',"check_mobile_otp(G.$('inputEmail'))");		
 		lv.element_form_signin.setAttribute('onsubmit',"return  check_key_mobile();");
+		lv.element_form_resend_otp.setAttribute('href',"JavaScript:check_resend_otp(G.$('inputEmail'),1)");
+
+		
 	} // end
 	
 	// check mobile
