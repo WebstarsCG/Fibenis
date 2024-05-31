@@ -20,7 +20,8 @@
 							'AFGK' => 'db3aeab2d92092e5586b7375fd885ba0', # forget password
 							'AGTO' => '2d4a92e779d30cc823a3feffafa56c8c', # logout
 							'ACUE' => 'e9eb891ad083d2470230f6a4b61528ae', # check user exists
-							'AOTP' => '98b470c3e60a5c7f23da85efa36cb04f'  # otp
+							'AOTP' => '98b470c3e60a5c7f23da85efa36cb04f', # otp
+							'ROTP' => 'cebf80986a75bd380637f7ca0a0f3117'  # Rotp
 						];
 		
 		if(@$_POST['request'] OR @$_GET['request']){
@@ -91,7 +92,7 @@
 
 				$PV['login_mobile']  	=  "get_eav_addon_varchar(is_internal,'COMB')";
 				
-				$PV['temp_session'] = $SG->set_get_master_session($COACH['name_hash']);	
+				$PV['master_panel'] 	=  $SG->set_get_master_session($COACH['name_hash']);	
 
 				
 		
@@ -258,6 +259,7 @@
 			$PV['check_auth_query_result'] = $rdsql->exec_query($PV['check_auth_query'],'Error! CK');
 			
 			$get_row =  $rdsql->data_fetch_object($PV['check_auth_query_result']);
+
 			
 			if(@$get_row->id){
 				
@@ -268,13 +270,15 @@
 					$session = $SG->set_session(['table'   => $PV['login_table'],
 												'id'		=> $get_row->id,
 												'gate'	=> $PV['gate']]);
-											
 										
 					$_SESSION['COMM_KEY'] = md5($get_row->id);
 					
 					$page_name =  $_SESSION['home_page_url'];
-									
-					$update_query="UPDATE user_info SET last_login= NOW() WHERE id =$get_row->id";
+					
+					// password update
+					$update_password_query = (@$PV['master_panel']['is_otp']==1)? ",`password`='".$G->hashKeyGenerator(@$PV['master_panel']['ekv_session'],strtotime(time()))."'":'';	
+														
+					$update_query="UPDATE user_info SET last_login= NOW() $update_password_query WHERE id =$get_row->id";
 					
 					$exe_up_query = $rdsql->exec_query($update_query,'Error! CK Update');
 
@@ -389,30 +393,39 @@
 		
 		
 		// email OTP
-		if(@$_POST['action']=='AOTP'){
+		if(@$_POST['action']=='AOTP' || @$_POST['action']=='ROTP'){
 			
+			$access_action = $_POST['action'];
+
 			if(@$_POST['user_mobile']){
-				$access_lock 		= $PV['login_mobile'];
 				$access_key 		= $_POST['user_mobile'];
-				$access_lock_type 	= 'mobile';
-				$access_token       = 'user_'.$access_lock_type;
+				$access_label 		= 'mobile no.';
+				$access_lock 		= $PV['login_mobile'];
+				$access_lock_type 	= 'mobile';								
+				$access_token       = 'user_'.$access_lock_type;				
 			}else{
-				$access_lock 		= $PV['login_email'];
 				$access_key  		= strtolower($_POST['user_email']);
+				$access_label 		= 'email id';
+				$access_lock 		= $PV['login_email'];
 				$access_lock_type 	= 'email';
 				$access_token       = 'user_'.$access_lock_type;
 			}
-					
-			$no_row = $G->table_no_rows(['table_name'   => $PV['login_table'],
+			
+			if($access_action=='AOTP'){
+				$no_row = $G->table_no_rows(['table_name'   => $PV['login_table'],
 										 'WHERE_FILTER' => " AND $access_lock='$access_key'"]);
-										
+
+			}else if($access_action=='ROTP'){
+				$no_row = [1,0,1];
+			}
+													
 			$current_time	= date('is');
 			$pass			= "0".$current_time;
 			//$new_key		= substr($pass,0,6);
 			$new_key		= substr(str_shuffle(rand()),0,6);
 			$password  		=  md5($new_key);
 			
-			$action_type 	= 'AOTP';
+			$action_type 	= $access_action;
 			$page_code		= $PV['GATE_CODE'][$action_type];
 														
 			if($no_row[0]==1){
@@ -478,7 +491,7 @@
 					echo '{"status":"1","message":"Sign Up"}';
 					
 				}else{						
-					echo '{"status":"0","message":"Sorry, it seems the user email is invalid"}';
+					echo '{"status":"0","message":"Sorry, it seems like the given user '.$access_label .' is invalid."}';
 				}							
 							   
 			} // new user					
@@ -488,49 +501,12 @@
 		} // end of AOTP
 		
 		// email OTP
-		if(@$_POST['action']=='ROTP'){
-			$user_email = strtolower($_POST['user_email']);	
-			//$new_key	= create_otp();
-			$new_key = '123456';
-			$password  	=  md5($new_key);
-			$action_type 	= 'AOTP';
-			$page_code		= $PV['GATE_CODE'][$action_type];
-			
-			$msg		 = custom_mail_message(['user_key'   => $new_key]);
-			
-			$set_rotp_query = "UPDATE user_info SET password='$password' WHERE $PV[login_email] = '$user_email' ";					
-			$exe_set_rotp_query = $rdsql->exec_query($set_rotp_query,'Error! CK Update');					
-			$login_user_id = $G->get_one_column(['table'=>'user_info','field'=>'is_internal',
-											     'manipulation'=>" WHERE $PV[login_email] = '$user_email' "]);					
-				
-			$MAIL_ROTP=array(
-						'from'    => $SG->get_session('mail_send_by').' Admin ',					
-						'to'      => $user_email, //'ratbew@gmail.com',
+		// if(@$_POST['action']=='ROTP'){
 						
-						'cc'	  =>  get_config('cc_mail'),
-						'bcc'	  => get_config('bcc_mail'),
-						
-						'subject' =>  $SG->get_session('mail_send_by').' | OTP for Sign In',
-						'message' => $msg['OTP_MSG'],
-					);
-					
-			if($PV['is_smtp_mail']){						
-				mail_send_smtp($MAIL_ROTP);
-			}else{
-				$send = $G->mail_send($MAIL_ROTP);
-			}
-			
-			$otp_signup_log = array('user_id'		=> $login_user_id,
-									  'page_code'	=> $page_code,
-									  'action_type'	=>  $action_type,
-									  'action'		=> 'Sign Up by '.$user_email);
-			
-			$G->set_system_log($otp_signup_log);
-			
-			echo '{"status":"1","message":"Sign In with New OTP"}';
+		// 	echo '{"status":"1","message":"Sign In with New OTP"}';
 		
 			
-		} // end
+		// } // end
 		
 		// change password
 		
@@ -780,7 +756,7 @@
 	
 		// create new password
 		function create_otp(){						
-			return $new_key		= substr(str_shuffle(rand()),0,5);			
+			return $new_key		= str_shuffle(rand(100000,999999));			
 		} //end
 
 		// send_gate_access_code
