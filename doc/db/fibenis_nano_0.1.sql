@@ -1,3 +1,10 @@
+--05JUN2024
+INSERT INTO 
+            entity_child_base(entity_code,token,sn,ln,dna_code,line_order,created_by,user_id)
+        VALUES
+            ('LX','AOTP','Send OTP','Send OTP','EBMS',30,2,2),
+            ('LX','ROTP','Resend OTP','Resend OTP','EBMS',31,2,2);
+            
 -- 05MAY2024
 DROP FUNCTION IF EXISTS get_user_role_domain_access;
 DELIMITER $$
