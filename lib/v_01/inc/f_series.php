@@ -366,6 +366,7 @@
 			$T->AddParam('LIB_PATH',$LIB_PATH);
 			$T->AddParam('DEF_PATH',$router['def_path']);
 			
+			$T->AddParam('version',@$F_SERIES['version']);
 			$T->AddParam('is_top_js',@$F_SERIES['js']['is_top']);		
 			$T->AddParam('top_js_file',@$F_SERIES['js']['top_js']);
 			
