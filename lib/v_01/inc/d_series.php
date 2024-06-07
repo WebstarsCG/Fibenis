@@ -680,6 +680,8 @@
 								'where'		 => @$P_V['WHERE_FILTER']											
 					]));
 		
+		
+		$T->AddParam('version',@$D_SERIES['version']);	
 		$T->AddParam('is_top_js',@$D_SERIES['js']['is_top']);		
 		$T->AddParam('top_js_file',@$D_SERIES['js']['top_js']);
 		

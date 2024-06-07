@@ -16,7 +16,7 @@
 	</TMPL_IF> 	
 		
 	<TMPL_IF is_top_js>  
-		<script language="javascript" type="text/javascript" src="<TMPL_IF top_js_file><TMPL_VAR top_js_file><TMPL_ELSE><TMPL_VAR DEF_PATH><TMPL_VAR d_series></TMPL_IF>.js"></script>	    
+		<script language="javascript" type="text/javascript" src="<TMPL_IF top_js_file><TMPL_VAR top_js_file><TMPL_ELSE><TMPL_VAR DEF_PATH><TMPL_VAR d_series></TMPL_IF>.js<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>"></script>	    
 	</TMPL_IF>  
 
 	<script language="javascript">
