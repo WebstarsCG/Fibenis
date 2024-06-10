@@ -20,7 +20,8 @@
 			protected $rdsql;	 
 			protected $coach=array();
 			protected $user_id;
-			protected $month_short;
+			protected $month_short;			
+			protected $box;
 				
 		// 1. create construct for db
 		
@@ -55,6 +56,17 @@
 
 				function getUserId(){				
 					return @$_SESSION['user_id'];
+				}
+				function getSessId(){				
+					return session_id();
+				}
+				
+				function putInBox($key,$value){				
+					$this->box[$key] = $value;
+				}
+
+				function getFromBox($key){				
+					return $this->box[$key] ?? '';
 				}
 	
 	/***************************************************************************************************************/			
