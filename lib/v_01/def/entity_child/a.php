@@ -70,6 +70,41 @@
 						
 						
 					}, // end
+
+					// EC bulk
+					'ECAIBL'=>function($param){
+						
+								$inline_param     = json_decode($param['data']);
+							    
+							    if($param['user_id'] && @$inline_param->code){ 					    
+								    								    
+									$status 	 = ($inline_param->fv==1)?1:0;
+									$entity_code = $param['G']->decryptRMIX($inline_param->code,$param['G']->getSessId());
+
+									if($entity_code){
+
+										$where 		 = " entity_code='$entity_code' AND ";
+																						
+										$param['rdsql']->exec_query("UPDATE
+														entity_child
+													SET
+														is_active =$status
+													WHERE
+														$where
+														id IN ($inline_param->id) 
+													",'0');
+										
+										# one column										
+										return $param['data'];
+
+									}else{
+										return 0;
+									}
+								    
+							    }else{								    
+								    return 0;			
+							    }
+				    }, // end
 					
 					// entitychild, external attribute
 					
