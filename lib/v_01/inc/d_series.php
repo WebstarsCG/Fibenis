@@ -811,6 +811,8 @@
 					$temp['is_bulk_button']  = @ $value['is_bulk_button'];
 					
 					$temp['button_name']  =  @$value['button_name'];
+
+					$temp['attr']  =  @$value['attr'];
 					
 					$temp['js_call']  =  @$value['js_call'];
 					

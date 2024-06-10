@@ -341,10 +341,13 @@
 								<TMPL_IF is_bulk_button>
 									&nbsp;
 									<button type="button" class="btn btn-primary" 
+									<TMPL_IF ATTR>
+										data-attr='<TMPL_VAR ATTR>'
+									</TMPL_IF>
 									<TMPL_IF IS_PROMPT>
-									onclick="fbn_bulk_call__<TMPL_VAR __counter__>();"
+									onclick="fbn_bulk_call__<TMPL_VAR __counter__>(this);"
 									<TMPL_ELSE>
-									onclick="<TMPL_VAR js_call>();"  
+									onclick="<TMPL_VAR js_call>(this);"  
 									</TMPL_IF>
 									><TMPL_VAR BUTTON_NAME></button>		
 
