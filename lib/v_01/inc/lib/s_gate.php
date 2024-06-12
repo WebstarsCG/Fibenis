@@ -435,7 +435,7 @@
 		}
 
 		function getSess($kv){
-			return @$_SESSION[$k] ?? false;
+			return @$_SESSION[$kv] ?? '';
 		}
 
 	}//class						
