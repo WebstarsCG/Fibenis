@@ -1,7 +1,7 @@
 <?PHP
 		
 	$CONTENT      = array();
-	$PV['EKV_SESSION'] = $G->getEKV('CH','ekv_session');
+	$PV['EKV_SESSION'] = $G->getEKV('MP','ekv_session');
 	
 	# if cookie not there	
 	if(@$_SESSION['ekv_session']!=$PV['EKV_SESSION']){
