@@ -1,7 +1,7 @@
     <!--- base.css--->
-    <link href="<TMPL_VAR LIB_PATH>/css/base.css" rel="stylesheet" type="text/css" >
+    <link href="<TMPL_VAR LIB_PATH>/css/base.css<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>" rel="stylesheet" type="text/css" >
   
-    <link href="<TMPL_VAR LIB_PATH>/css/ax.css" rel="stylesheet" type="text/css" >
+    <link href="<TMPL_VAR LIB_PATH>/css/ax.css<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>" rel="stylesheet" type="text/css" >
         
     <!--- jQuery Class --->	
     <link href="<TMPL_VAR LIB_PATH>/comp/jquery/ui/css/ui-lightness/jquery-ui-1.10.4.custom.css"  rel="stylesheet" type="text/css" >
@@ -25,22 +25,22 @@
     <!----------------------------------------------JavaScript Core---------------------------->
     
     <!--- General--->	
-    <script src="<TMPL_VAR LIB_PATH>/js/general.js"></script>
+    <script src="<TMPL_VAR LIB_PATH>/js/general.js<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>"></script>
     
     <!--- Key press validation --->    
-    <script language="JavaScript" type="text/javascript" src="<TMPL_VAR LIB_PATH>/js/key.js"></script>
+    <script language="JavaScript" type="text/javascript" src="<TMPL_VAR LIB_PATH>/js/key.js<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>"></script>
     
     <!--- Ajax --->
-    <script src="<TMPL_VAR LIB_PATH>/js/ajax_v2.js"></script>
+    <script src="<TMPL_VAR LIB_PATH>/js/ajax_v2.js<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>"></script>
     
     <!--- Show Script --->
-    <script src="<TMPL_VAR LIB_PATH>/js/show.js"></script>
+    <script src="<TMPL_VAR LIB_PATH>/js/show.js<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>"></script>
     
     <!--- Modal Event --->
-    <script src="<TMPL_VAR LIB_PATH>/js/modal_events.js"></script>   
+    <script src="<TMPL_VAR LIB_PATH>/js/modal_events.js<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>"></script>   
     
     <!--- Gate --->  
-    <script id="fiben_gate_js" data-lib-path="<TMPL_VAR LIB_PATH>" src="plugin/js/gate.js?v=07593e3591e80071eff9ea6dbc84bd8084a032db"></script>
+    <script id="fiben_gate_js" data-lib-path="<TMPL_VAR LIB_PATH>" src="plugin/js/gate.js<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>"></script>
 
     <!----------------------------------------------JavaScript Core External------------------->
 
@@ -59,7 +59,7 @@
     <!--- Pretty Photo--->     
     <script src="<TMPL_VAR LIB_PATH>/comp/pretty_photo/script.js"></script>
 
-    <script src="<TMPL_VAR LIB_PATH>/js/f_series.js"></script>  
+    <script src="<TMPL_VAR LIB_PATH>/js/f_series.js<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>"></script>  
     <TMPL_UNLESS IS_PAGE>
           
         <!--- jQuery UI Custom Min --->	
