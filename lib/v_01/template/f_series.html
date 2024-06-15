@@ -43,7 +43,7 @@
 	</TMPL_IF> 
 
 	<TMPL_IF IS_CSS>  
-		<link rel="stylesheet" href="<TMPL_IF CSS_PATH><TMPL_VAR CSS_PATH><TMPL_ELSE><TMPL_VAR DEF_PATH><TMPL_VAR F_SERIES></TMPL_IF>.css">
+		<link rel="stylesheet" href="<TMPL_IF CSS_PATH><TMPL_VAR CSS_PATH><TMPL_ELSE><TMPL_VAR DEF_PATH><TMPL_VAR F_SERIES></TMPL_IF>.css<TMPL_IF VERSION>?v=<TMPL_VAR VERSION></TMPL_IF>">
 	</TMPL_IF> 	
 	
 	<TMPL_IF is_title>
