@@ -291,7 +291,9 @@
 								         "debug"    => 0));
 				
 				$PV['core_header']->AddParam(array( 'lib_path'      => $LIB_PATH,   
-								    'is_page'       => $PV['is_page']) );
+								    				'is_page'       => $PV['is_page'],
+													'version'		=> (get_config('version') ?? '')) 
+											);
 							    							      				
 				// header				
 				
@@ -322,8 +324,8 @@
 						    //'is_page'            => $PV['is_page'],
 						    
 						    'page_content_title' => $CONTENT[$PAGE]['title']
-                                                )
-					    );
+                            )
+				);
 					    
 			
 				// Footer	
