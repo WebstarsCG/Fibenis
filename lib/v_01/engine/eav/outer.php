@@ -311,6 +311,8 @@
 						    'default_title'      => @$PV['MASTER']['meta_title'],
 						    'default_keywords'   => @$PV['MASTER']['meta_keywords'],
 						    'default_description'=> @$PV['MASTER']['meta_description'],
+
+							'gtag_code'			 => @$PV['MASTER']['gtag_code'],
 						    
 						    'page_title'         => @$CONTENT[$PAGE]['page_title'],
 						    'page_keywords'      => @$CONTENT[$PAGE]['page_keywords'],

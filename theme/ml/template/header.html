@@ -58,3 +58,14 @@
       <!---<TMPL_VAR LIB_PATH><TMPL_VAR CURRENT_YEAR><TMPL_VAR IS_HOME><TMPL_VAR IS_PAGE>--->
 
 
+    <TMPL_IF GTAG_CODE>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<TMPL_VAR GTAG_CODE>"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '<TMPL_VAR GTAG_CODE>');
+    </script>
+    </TMPL_IF>    
