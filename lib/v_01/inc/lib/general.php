@@ -2033,6 +2033,27 @@
 							return md5($starter.rand(1,4).rand().rand(10,100).time().$tailend);
 					  
 				  } // end
+
+
+				///// getDualToMonoCSV/////////////////////////////////////////////////////
+				// i/p -> getDualToMonoCSV('A','B,C')
+				// o/p -> A,B,C
+				/////////////////////////////////////////////////////////////////
+				function getDualToMonoCSV($a,$b){
+
+					$c = [];
+				
+					foreach([$a,$b] as $item_index => $item_value){
+					
+							if($item_value){	
+									$c=array_merge($c,explode(',',$item_value));
+							} //end if
+					
+						}//end for
+						
+					return implode(",",$c);
+				
+				} // end of funciton
 				  
 /*get_ekv
 * get entity key value
