@@ -1235,9 +1235,9 @@
 		list-style:decimal !important;
 	}
 	
-	.opacity_75{ opacity:0.75; -moz-opacity:0.75;}
-	.opacity_50{ opacity:0.5; -moz-opacity:0.5;}
-	.opacity_25{ opacity:0.25; -moz-opacity:0.25;}
+	.opacity_75{ opacity:0.75;}
+	.opacity_50{ opacity:0.5; }
+	.opacity_25{ opacity:0.25;}
 	
 	.pad_3{  padding: 3px; }
 	.pad_5{  padding: 5px; }
