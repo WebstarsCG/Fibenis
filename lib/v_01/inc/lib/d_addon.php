@@ -23,7 +23,11 @@
 															'ITDT'=>['table'=>'date'],
 															'ITTI'=>['table'=>'time'],
 															'ITRG'=>['table'=>'varchar'],
-															'ITTB'=>['table'=>'varchar']],
+															'ITTB'=>['table'=>'varchar'],
+															'ITUQ'=>['table'=>'vc128uniq']
+															
+														
+														],
 																																								
 						'key_filter'				=> ''
 				];

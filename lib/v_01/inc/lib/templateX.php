@@ -40,9 +40,9 @@ class TemplateX extends General{
 			
 			}else{ // valid token
 
-				$lv->template = $this->get_one_column(['table'		  => 'entity_child_base',
-													   'field'		  => 'note',
-													   'manipulation' => " WHERE entity_code='TMPL' AND UPPER(token)=UPPER('$token') "
+				$lv->template = $this->get_one_column(['table'		  => 'exav_addon_vc128uniq',
+													   'field'		  => "get_exav_addon_text(parent_id,'TMPLCONT')",
+													   'manipulation' => " WHERE exa_token='TMPLCODE' AND UPPER(exa_value)=UPPER('$token') "
 				]);
 
 				if($lv->template){
@@ -69,7 +69,7 @@ class TemplateX extends General{
 	}
 
 	// rendering
-	function render($param){
+	function render(array $param=null){
 
 		if(gettype($param)=='array'){
 			$this->engine->AddParam($param);

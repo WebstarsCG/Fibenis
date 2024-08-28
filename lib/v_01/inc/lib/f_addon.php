@@ -65,8 +65,10 @@
 																											   $data_in['start_place_holder'] = '';
 																											   $data_in['end_place_holder']   = '';
 																											   
-																											   return $data_in;}]
-													];
+																											   return $data_in;}],
+								'ITUQ'=>['table'=>'vc128uniq',
+										 'action'=>function($data_in){  $data_in['allow']='p[([a-zA-Z0-9]){1,128}][_]';$data_in['maxlength']='128'; $data_in['attr']['class']="w_200"; return $data_in; }]
+							];
 							
 							$temp['addon'] = json_decode($param['default_addon']);							  
 							
