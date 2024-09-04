@@ -126,40 +126,40 @@
                                                                     'child_attr_code'     => 'APSL',                // attribute code
                                                                                                                         
                                                                         'default_rows_prop'=>array('start_rows'=>'1',
-																								   'min_spare_rows'=>'1',
-																								   'max_row'=>'1',
-																					   
-																	    ),
-																		
-																		
-														'colHeaders'=> array(
-																				array('column'=>'Table','width'=>'200','type'=>'dropDown',
-																				'data'=>"<option value=Entity_Child_Base>Entity Child Base</option>".
-																				        "<option value=Entity_Child>Entity Child</option>".
-																						"<option value=user_info>User</option>"),
-																									
-																									
-																				array('column'=>'Entity Code','width'=>'100','type'=>'dropDown',
-																				'data'=> $G->ft_option_builder('entity','concat(code,\'->\',sn),sn'," WHERE is_lib=0 ORDER BY sn ASC")),
-																									
-																									
-																				array('column'	=>'Option Value',	'width'=>'100',	'type'=>'dropDown',
-																				
-																						'data'	=>	"<option value=token>Token</option>".
-																									"<option value=sn>SN</option>".
-																									"<option value=ln>LN</option>".
-																									"<option value=id>ID</option>"),
-																						
-																				array('column'=>'Option Label','width'=>'100','type'=>'dropDown',
-																				
-																					'data'=>"<option value=token>Token</option>".
-																					        "<option value=sn>SN</option>".
-																							"<option value=ln>LN</option>".
-																							"<option value=id>ID</option>".
-																							"<option value=get_user_internal_name(id)>User Name</option>"),
-																							
-																				array('column'=>'Filter','width'=>'300','type'=>'text')
-																	 ),
+                                                                                                                                                                'min_spare_rows'=>'1',
+                                                                                                                                                                'max_row'=>'1',
+                                                                                                                                        
+                                                                                                        ),
+                                                                                                        
+                                                                                                        
+                                                                        'colHeaders'=> array(
+                                                                                                                        array('column'=>'Table','width'=>'200','type'=>'dropDown',
+                                                                                                                        'data'=>"<option value=Entity_Child_Base>Entity Child Base</option>".
+                                                                                                                                "<option value=Entity_Child>Entity Child</option>".
+                                                                                                                                        "<option value=user_info>User</option>"),
+                                                                                                                                                                
+                                                                                                                                                                
+                                                                                                                        array('column'=>'Entity Code','width'=>'100','type'=>'dropDown',
+                                                                                                                        'data'=> $G->ft_option_builder('entity','concat(code,\'->\',sn),sn'," WHERE is_lib=0 ORDER BY sn ASC")),
+                                                                                                                                                                
+                                                                                                                                                                
+                                                                                                                        array('column'	=>'Option Value',	'width'=>'100',	'type'=>'dropDown',
+                                                                                                                        
+                                                                                                                                        'data'	=>	"<option value=token>Token</option>".
+                                                                                                                                                                "<option value=sn>SN</option>".
+                                                                                                                                                                "<option value=ln>LN</option>".
+                                                                                                                                                                "<option value=id>ID</option>"),
+                                                                                                                                        
+                                                                                                                        array('column'=>'Option Label','width'=>'100','type'=>'dropDown',
+                                                                                                                        
+                                                                                                                                'data'=>"<option value=token>Token</option>".
+                                                                                                                                        "<option value=sn>SN</option>".
+                                                                                                                                                "<option value=ln>LN</option>".
+                                                                                                                                                "<option value=id>ID</option>".
+                                                                                                                                                "<option value=get_user_internal_name(id)>User Name</option>"),
+                                                                                                                                                
+                                                                                                                        array('column'=>'Filter','width'=>'300','type'=>'text')
+                                                                                                        ),
                                                                      
                                                                      'is_hide' => 0, 
 																	 
@@ -964,7 +964,7 @@
                                                             ),
                                                             
 															
-															'58' =>array(     'field_name'        => 'Col. Function',                                                                
+							'58' =>array(     'field_name'        => 'Col. Function',                                                                
                                                                               'field_id'          => 'ea_value',				       
                                                                               'type' 	          => 'text',
                                                                               'is_mandatory'      => 0,
@@ -974,7 +974,7 @@
                                                                             'parent_field_id'     => 'parent_id',    // parent field                                                                                            
                                                                             'child_attr_field_id' => 'ea_code',   // attribute code field
                                                                             'child_attr_code'     => 'ADXQ',           // attribute code                                                                                                                                        
-                                                                            'input_html'          => 'class="w_300" ',
+                                                                            'attr'                => ['class'=>"w_300"],
                                                                             'allow'               => "w128[_]"
                                                             ),
                                                             
@@ -1082,6 +1082,7 @@
                                 'ITFT'  => [26,27,28,29,30,31,32,46],
                                 'ITSL'  => [8,55,59,60],
                                 'ITML'  => [8,55,59,60],
+                                'ITST'  => [8,55,59,60],
                                 'ITTA'  => [13],
                                 'ITIG'  => [13],
                                 'ITNM'  => [13],
@@ -1097,6 +1098,19 @@
                                 'ITFD'  => [33,34,35,36,37,38,39,40],
                                 'ITDT'  => [18,19,20,21,22,23],
                              ];
+
+        $temp['action'] = ['ITST'=>function($din){  
+                                                        $din['8']['colHeaders'][0]['data']="<option value=Entity_Child_Base>Entity Child Base</option>"; 
+                                                        $din['8']['colHeaders'][2]['data']="<option value=token>Token</option>"; 
+                                                        $din['8']['colHeaders'][3]['data']="<option value=sn>SN</option><option value=ln>LN</option>"; 
+                                                        
+                                                        $din['8']['hint'] = 'SN->Short Name, LN->Long Name';
+
+                                                        $din['58']['attr']['value'] = 'get_ecb_sn_by_token';
+
+                                                        return $din;  
+                                                }  
+                        ];
         
         if(@$_GET['i_t']){
                 
@@ -1105,6 +1119,10 @@
                         $F_SERIES['data'][6]['option_data']=$G->option_builder('entity_child_base','token,ln'," WHERE entity_code='IT' AND token= '$_GET[i_t]' ORDER by ln ASC");
                         
                         $F_SERIES['data'][6]['avoid_default_option']= 1;
+
+                        if(@$temp['action'][$_GET['i_t']]){
+                                $F_SERIES['data'] = $temp['action'][$_GET['i_t']]($F_SERIES['data']);
+                        }
                         
                         $temp['to_set']=array_merge($temp ['input_type']['GN'],$temp ['input_type'][$_GET['i_t']]);
                         
@@ -1146,5 +1164,7 @@
            $F_SERIES['data']['56']['input_html']=" value='$temp[line_order_value]'"; 
 		   
         } // end)
+
+
     
 ?>
