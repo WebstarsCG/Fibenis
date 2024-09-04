@@ -49,23 +49,26 @@
 								'ITCB'=>['table'=>'text'],
 								'ITCE'=>['table'=>'text'],
 								'ITTG'=>['table'=>'bool'],
-													'ITTE'=>['table'=>'text'],
-													'ITSL'=>['table'=>'varchar'],
-													'ITML'=>['table'=>'varchar',
-													'action'=>function($data_in){  $data_in['is_list']=1; 
-																				   $data_in['input_html']=" class='w_300' style='height:100px' ";  return $data_in; }],
+								'ITTE'=>['table'=>'text'],
+								'ITSL'=>['table'=>'varchar'],
+								'ITML'=>['table'=>'varchar',
+								'			action'=>function($data_in){  $data_in['is_list']=1; 
+																$data_in['input_html']=" class='w_300' style='height:100px' ";  return $data_in; }],
+									
+								'ITST'=>['table'=>'exa_token'],			
+								
 								'ITFT'=>['table'=>'text'],
 								'ITFD'=>['table'=>'varchar'],
 								'ITFI'=>['table'=>'varchar'],
 								'ITDT'=>['table'=>'date'],
 								'ITTI'=>['table'=>'time'],
-													'ITRG'=>['table'=>'varchar','action'=>function($data_in){return $data_in;}],
-													'ITTB'=>['table'=>'varchar','action'=>function($data_in){  $data_in['end_label']='';
-																											   $data_in['attr']['class']="w_50"; 
-																											   $data_in['start_place_holder'] = '';
-																											   $data_in['end_place_holder']   = '';
-																											   
-																											   return $data_in;}],
+								'ITRG'=>['table'=>'varchar','action'=>function($data_in){return $data_in;}],
+								'ITTB'=>['table'=>'varchar','action'=>function($data_in){  $data_in['end_label']='';
+																							$data_in['attr']['class']="w_50"; 
+																							$data_in['start_place_holder'] = '';
+																							$data_in['end_place_holder']   = '';
+																							
+																							return $data_in;}],
 								'ITUQ'=>['table'=>'vc128uniq',
 										 'action'=>function($data_in){  $data_in['allow']='p[([a-zA-Z0-9]){1,128}][_]';$data_in['maxlength']='128'; $data_in['attr']['class']="w_200"; return $data_in; }]
 							];
@@ -637,7 +640,7 @@
 										
 										$dd_val = NULL;
 														
-										}elseif(($get_row->exa_type=="ITSL") || ($get_row->exa_type=="ITML")){
+										}elseif(($get_row->exa_type=="ITSL") || ($get_row->exa_type=="ITML") || ($get_row->exa_type=="ITST") ){
 															
 															$lv['option'] 		= [];
 															
@@ -685,17 +688,21 @@
 																					   
 																				];
 														
-												if($get_row->list_default_option_label){													
-													$temp_input['option_default']	=   array('label'=>$get_row->list_default_option_label ?? 'Select',
-																							  'value'=>'');
-												} // end
+										if($get_row->list_default_option_label){													
+											$temp_input['option_default']	=   array('label'=>$get_row->list_default_option_label ?? 'Select',
+																						'value'=>'');
+										} // end
 														
-															if(isset($temp_input_to_table[$get_row->exa_type]['action'])){
-																$temp_input= $temp_input_to_table[$get_row->exa_type]['action']($temp_input);
-															}
+										if(isset($temp_input_to_table[$get_row->exa_type]['action'])){
+											$temp_input= $temp_input_to_table[$get_row->exa_type]['action']($temp_input);
+										}
+
+										if($get_row->exa_type=="ITST"){													
+											$temp_input['field_id']	=   'exa_value_token';
+										} // end
 																		
 														
-														}elseif($get_row->exa_type=="ITFD"){
+									}elseif($get_row->exa_type=="ITFD"){
 																		
 										$doc_location	= empty($get_row->file_location)? 'doc/' : $get_row->file_location;
 										$doc_allow_ext	= empty($get_row->file_allow_ext)? ['pdf'] : explode(',',$get_row->file_allow_ext);
