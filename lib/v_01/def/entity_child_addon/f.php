@@ -23,6 +23,8 @@
 				# Default Additional Column
                                 
 				'is_user_id'       => 1,
+
+				'is_created_by'	   =>1,
 				
 				'is_field_id_as_token'=>1,
 								
