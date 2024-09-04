@@ -1,4 +1,30 @@
---05JUN2024
+-- 30082024
+DROP FUNCTION IF EXISTS get_exav_addon_exa_token_parent_id; 
+DELIMITER $$
+CREATE  FUNCTION get_exav_addon_exa_token_parent_id(temp_token VARCHAR(32), temp_value_token VARCHAR(32)) RETURNS TEXT
+BEGIN
+    return IFNULL((SELECT GROUP_CONCAT(parent_id) FROM exav_addon_exa_token WHERE exa_token=temp_token AND 
+                          exa_value_token=temp_value_token GROUP BY temp_value_token),NULL);     
+END$$
+DELIMITER ;
+
+INSERT INTO 
+            entity_child_base(entity_code,token,sn,ln,dna_code,line_order,created_by,user_id)
+        VALUES
+            ('IT','ITST','Simple List Base Token','Simple List Base Token','EBMS',23,2,2);
+
+INSERT INTO 
+            entity_child_base(entity_code,token,sn,ln,dna_code,line_order,created_by,user_id)
+        VALUES
+            ('IT','ITUQ','Unique Input','Unique Input','EBMS',22,2,2);
+
+INSERT INTO 
+            entity_child_base(entity_code,token,sn,ln,dna_code,line_order,created_by,user_id)
+        VALUES
+            ('IT','ITML','Multiple List','Multiple List','EBMS',21,2,2);
+
+
+-- 05JUN2024
 INSERT INTO 
             entity_child_base(entity_code,token,sn,ln,dna_code,line_order,created_by,user_id)
         VALUES
