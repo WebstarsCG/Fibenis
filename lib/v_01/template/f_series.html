@@ -430,6 +430,7 @@
 										<TMPL_VAR input_html>
 										type    = "text"
 										readonly="true"
+										data-label="<TMPL_VAR field_name>"
 									>
 								    
 									<span id="m_X<TMPL_VAR field_id>" class="red_star"><TMPL_IF is_mandatory>*</TMPL_IF></span>
@@ -596,6 +597,8 @@
 											</TMPL_IF> 
 										 </TMPL_IF>
 											 onfocus="JavaScript:elementFocus(this);"
+
+											 data-label="<TMPL_VAR field_name>" 
 											 
 										<TMPL_IF LAST_DIVIDER_ID>data-last-divider-id=<TMPL_VAR LAST_DIVIDER_ID></TMPL_IF>
 							 > <!--- end--->
@@ -776,7 +779,7 @@
 											 onchange="JavaScript:elementFocusOut(this);"
 										 </TMPL_IF>
 										 
-											
+										 data-label="<TMPL_VAR field_name>"	
 										
 										<TMPL_IF LAST_DIVIDER_ID>data-last-divider-id=<TMPL_VAR LAST_DIVIDER_ID></TMPL_IF>
 									
