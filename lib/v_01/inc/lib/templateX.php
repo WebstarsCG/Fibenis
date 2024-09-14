@@ -31,7 +31,7 @@ class TemplateX extends General{
 			$lv = (object) ['template'=>''];
 
 			// clean to token syntax
-			$token = $this->getCleanToken($token);
+			$token = $this->getCleanAlphaNum($token);
 
 			// invalid token
 			if(strlen($token)==0){
