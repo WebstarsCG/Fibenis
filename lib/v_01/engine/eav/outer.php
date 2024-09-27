@@ -4,7 +4,7 @@
 	
 	ini_set('display_errors',0);
 	ini_set('display_startup_errors',0);
-	error_reporting(E_ALL);
+	error_reporting(0);
 
 	# Var
 		$COACH=[];     // coach
@@ -105,7 +105,15 @@
 		
 		# set coach
 		$G->set_coach($COACH);	
-     				
+
+		# user_info
+		if(@$USER_ID){
+				$USER_INFO = [	'USER_ID'   	=> @$USER_ID,
+								'USER_NAME' 	=> @$USER_NAME,
+								'USER_EMAIL'	=> @$USER_EMAIL,
+								'USER_ROLE_CODE'=> @$USER_ROLE,
+							];
+		}			
 		# Content Stream
 				
 		# checking for series content
@@ -194,21 +202,21 @@
 				
 				// is cache
 				if(is_file($PV['cache_coach_eng_role'])){
-					$PV['temp_content']	=$G->getFileContent($PV['cache_coach_eng_role']);					
-				}else{
-					
+					$PV['temp_content']	=$G->getFileContent($PV['cache_coach_eng_role']);	
+				}else{					
 					$PAGE_CONTENT = '<TMPL_VAR APP_CONTENT>';				
-					$PV['temp_content'] = outer_action();					
-				
+					$PV['temp_content'] = outer_action();
 					$G->putFileContent(['path'=>$PV['cache_coach_eng_role'],
-										 'content'=>$PV['temp_content']]);
-										 
+										 'content'=>$PV['temp_content']]);	
 				} // end cache
 				
 				// get content
 				$APP = new Template(array("filename" => $PV['cache_coach_eng_role'],"debug"    => 0));
 				$APP->AddParam('APP_CONTENT',$L->Output());					
 				if(!$MENU_OFF){ $APP->AddParam('PAGE_TITLE',@$PAGE_TITLE); } // if menu than title
+				
+				// user info				
+				if(@$USER_ID){$APP->AddParam($USER_INFO);}
 				$APP->EchoOutput();
 	
 		}else{ // open page
@@ -448,10 +456,10 @@
 		    ));
 						       
 		    if($USER_ID){				    
-				$TD->AddParam(array('USER_ID'   =>@$USER_ID,
-							'USER_NAME' =>@$USER_NAME,
-							'USER_EMAIL'=>@$USER_EMAIL,
-							'USER_ROLE_CODE'=>@$USER_ROLE,
+				$TD->AddParam(array('USER_ID'   	=> '<TMPL_VAR USER_ID>',
+									'USER_NAME' 	=> '<TMPL_VAR USER_NAME>',
+									'USER_EMAIL'	=> '<TMPL_VAR USER_EMAIL>',
+									'USER_ROLE_CODE'=> '<TMPL_VAR USER_ROLE_CODE>'
 							));                        
 		    } // user id
 				    
@@ -474,7 +482,10 @@
 		} // outer action
 	
 		
-		// close db connection
-		
+		// close db connection		
 		$db_conn_close($db_conn_info);
+
+	
+
+		
 ?>
