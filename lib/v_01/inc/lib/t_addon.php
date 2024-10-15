@@ -204,6 +204,12 @@
 			return $col;				
 			
 		}; // end
+
+		// simple token
+		$T_ADDON_ACTION['ITST'] = function($col,$attr){
+			$col['field']="get_ecb_sn_by_token($col[field])";
+			return $col;
+		};
 		
 		$T_ADDON_ACTION['ITML'] = function($col,$attr){
 						
