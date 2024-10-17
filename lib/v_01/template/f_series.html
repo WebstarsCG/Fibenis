@@ -1579,7 +1579,26 @@
 												</td>
 											   </TMPL_IF>
 											   
-											   
+											<TMPL_IF is_label_value>
+												<td   	data-ft-type="ftlabelvalue" 
+													  	data-eid="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"
+														width="<TMPL_VAR WIDTH>">
+
+													<!-- col header ---->
+													<TMPL_IF is_first_row>
+														<input type='hidden' data-ft-type="ftlabelvalue"  id='ft_col_<TMPL_VAR col_counter>_<TMPL_VAR field_id>'
+																<TMPL_IF COL_DATA>data-ft-col-data='<TMPL_VAR COL_DATA>'</TMPL_IF>
+														>												
+													</TMPL_IF>	
+												
+													<input    onkeyup="JavaScript:<TMPL_IF KEY_UP_ADDON><TMPL_VAR KEY_UP_ADDON>;</TMPL_IF>getfibenisTableData(this,<TMPL_VAR field_id>,'<TMPL_VAR is_update_route_point>','<TMPL_VAR route_url>');<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);" 
+																name="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"
+																id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"  
+																<TMPL_VAR input_html>
+																data-ft-value=""	
+													/>
+												</td>
+											</TMPL_IF>   
 												
 											   
 											   <!-- last col number ---->

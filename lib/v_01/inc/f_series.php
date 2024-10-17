@@ -1184,6 +1184,8 @@
 						$fibenistable_temp['is_autocomplete']  =  (@$colvalue['type']== 'autocomplete')?1:0;
 						
 						$fibenistable_temp['is_date']  =  (@$colvalue['type']== 'date')?1:0;
+
+						$fibenistable_temp['is_label_value'] =  (@$colvalue['type']== 'label_value')?1:0;
 						
 						$fibenistable_temp['is_update_route_point']  =  @$param['update_route_point']['is_update_route_point'];
 						
@@ -1205,31 +1207,20 @@
 								){
 								
 										// set match pattern
-										$fibenistable_temp[ $lv['allow']['pattern'][ $lv['allow_matches'][1] ] ]  = 1;
-										
-										$fibenistable_temp['max_length'] = ($lv['allow_matches'][2])?$lv['allow_matches'][2]:'';
-										
+										$fibenistable_temp[ $lv['allow']['pattern'][ $lv['allow_matches'][1] ] ]  = 1;										
+										$fibenistable_temp['max_length'] = ($lv['allow_matches'][2])?$lv['allow_matches'][2]:'';										
 										$fibenistable_temp['special_in'] = (@$lv['allow_matches'][5])?@$lv['allow_matches'][5]:'';
 								}
-								
-								#print_r($lv['allow_matches']);
-								
 						}
-						
-						if(($fibenistable_temp['is_text']) || $fibenistable_temp['is_dropdown']){
-								
-								$fibenistable_temp['key_up_addon'] = (@$colvalue['key_up_addon'])?@$colvalue['key_up_addon']:'';
-						
+
+						if(($fibenistable_temp['is_text']) || $fibenistable_temp['is_dropdown']){								
+							$fibenistable_temp['key_up_addon'] = (@$colvalue['key_up_addon'])?@$colvalue['key_up_addon']:'';						
 						}
-						
-						if($fibenistable_temp['is_autocomplete']){
-								
+
+						if($fibenistable_temp['is_autocomplete']){								
 							$fibenistable_temp['get_data_url'] = @$colvalue['get_data_url'];
-							
-							//$fibenistable_temp['s_field'] = @$colvalue['search_field'];
-							
 						}
-						
+												
 						$fibenistable_temp['max_no_rows'] = $param['max_no_rows'];
 						if($num_colum == $colkey){
 							$colvalue['type'];	
@@ -1243,7 +1234,12 @@
 						//row counter coll counter
 						$fibenistable_temp['row_counter']  = $param['row_counter'];
 						$fibenistable_temp['col_counter']  = $COUNTER+1;
+						$fibenistable_temp['col_data'] 	   = '';
 						$fibenistable_temp['is_first_row'] = ($param['row_counter']==1)?1:0;
+
+						if($fibenistable_temp['is_label_value'] && $fibenistable_temp['is_first_row']==1){
+							$fibenistable_temp['col_data'] = @$colvalue['data']; 
+						}
 						
 						array_push($fibenistable_info,$fibenistable_temp);
 						
@@ -1413,17 +1409,16 @@
 				} // end
 				
 				
-				# for add user
-						
+				# for add user						
 				if($is_user_id){
-						$key_csv.='user_id,';
-						$key_value.="'".$USER_ID."',";								
+					$key_csv.='user_id,';
+					$key_value.="'".($USER_ID ?? $F_DEFAULT['any_user_id'])."',";								
 				} # end
 				
 				# created_by
 				if($is_created_by){
-						$key_csv.='created_by,';
-						$key_value.="'".$USER_ID."',";								
+					$key_csv.='created_by,';
+					$key_value.="'".($USER_ID ?? $F_DEFAULT['any_user_id'])."',";								
 				} # end
 				
 				# remove last character

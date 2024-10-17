@@ -315,6 +315,24 @@
 						
 						return $option_box;
 		   }
+
+		   function ft_label_value_builder($tbl_name,$field,$manipulate){
+										
+			#global $rdsql;
+
+			$sql="SELECT $field FROM $tbl_name $manipulate";
+		
+			$exe_query = $this->rdsql->exec_query($sql,"ERROR in option_builder<br>$sql");
+		
+			$option_box=[];
+			
+			while($option=$this->rdsql->data_fetch_array($exe_query)){	
+				$option_box[$option[0]]=$option[1];	
+			}	
+			
+			return json_encode($option_box);
+  
+		  } // end of option builder	  
 				      
 		   /////////////////////////////////////////////////////////////////////////////////////////////////////
 		   
