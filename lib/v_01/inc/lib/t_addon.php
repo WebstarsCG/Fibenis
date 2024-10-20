@@ -29,6 +29,7 @@
 															'ITFD'=>['table'=>'varchar'],
 															'ITFI'=>['table'=>'varchar'],
 															'ITDT'=>['table'=>'date'],
+															'ITTI'=>['table'=>'time'],
 															'ITRG'=>['table'=>'varchar'],
 															'ITTB'=>['table'=>'varchar'],
 															'ITCB'=>['table'=>'text'],
@@ -260,7 +261,6 @@
 			return $col;				
 			
 		}; // end
-		
 		
 		$T_ADDON_ACTION['ITFT'] = function($col,$attr){		
 		
