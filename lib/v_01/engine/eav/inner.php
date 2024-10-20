@@ -140,29 +140,32 @@
 					
 					$lv 		= ['home'=>"$COACH[path]$COACH[name]/content/$page.html",
 								   'gate'=>$THM->getThemeBlendGate()."$COACH[step_in].html"
-								  ];
-								  								  
-					// config keys			  
-					$lv['gate_config']  = ['is_otp','is_open','auth_type','entry_gates','is_otp_mobile'];	
-					$config				= [];
-			
-					foreach ($lv['gate_config'] as $gate_config) {
-						$config[$gate_config]	= @$PV['MASTER'][$gate_config] ?$PV['MASTER'][$gate_config]:get_config($gate_config);
-					}
-
-					foreach (['has_welcome_content'] as $gate_config) {
-						$config[$gate_config]	= @$PV['MASTER'][$gate_config]?get_config($gate_config):'';
-					}
+								  ];								  								  
 					
 					// content					
 					$c 		= new Template(array("filename" => $lv[$COACH['step_in']],
 												 "debug"    => 0));
 										
 					if($COACH['step_in']=='gate'){
+
+						// config keys			  
+						$lv['gate_config']  = ['is_otp','is_open','auth_type','entry_gates','is_otp_mobile','has_gate_logo'];	
+						$config				= [];
+				
+						foreach ($lv['gate_config'] as $gate_config) {
+							$config[$gate_config]	= @$PV['MASTER'][$gate_config] ?$PV['MASTER'][$gate_config]:get_config($gate_config);
+						}
+
+						foreach (['has_welcome_content'] as $gate_config) {
+							$config[$gate_config]	= @$PV['MASTER'][$gate_config]?get_config($gate_config):'';
+						}
+					
+
 						$c->AddParam('IS_LDAP',( ($config['auth_type'] && ($config['auth_type']=='ldap'))?1:0));
 						$c->AddParam('IS_OPEN',$config['is_open']);
 						$c->AddParam('IS_OTP',$config['is_otp']);
 						$c->AddParam('IS_OTP_MOBILE',$config['is_otp_mobile']);
+						$c->AddParam('HAS_GATE_LOGO',$config['has_gate_logo']);
 						$c->AddParam('HAS_WELCOME_CONTENT',$config['has_welcome_content']);
 						$c->AddParam('TERMINAL_PATH',$COACH['terminal_path']);
 						
