@@ -1114,7 +1114,16 @@
 		public function getPostByToken($token){
 			return $_POST[$this->getFieldKey($token)];
 		}
-		
+				
+		public function resetDataMap(){
+
+			foreach($this->def['data'] as $dky => $dkv){
+				if(@$dkv['field_token']){
+					$this->def['data_map'][$dkv['field_token']]=$dky;
+				}
+			}
+
+		} // end
 	 
 	} // addon
 	
