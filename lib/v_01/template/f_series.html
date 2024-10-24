@@ -111,7 +111,7 @@
 					
 					// given url as form action url
 					const url       = "<TMPL_VAR F_SERIES_QUERY_VAR>";
-                    const form_data = new FormData(document.getElementById("PUB_A"));
+                    const form_id = "PUB_A";
 					
 
 					<TMPL_IF ASK_ONCE>
@@ -134,14 +134,14 @@
 								
 								if(result==true){
 									G.showLoader('Sending your request..');
-									form_submit(url,form_data);
+									form_submit(url,form_id);
 								}
 							}
 						});
 
 					<TMPL_ELSE>
 						G.showLoader('Sending your request..');
-						form_submit(url,form_data);
+						form_submit(url,form_id);
 					</TMPL_IF>
 					
 					return false;				
@@ -153,7 +153,9 @@
 
 
 		// form submit
-		function form_submit(url,form_data){
+		function form_submit(url,form_id){
+
+			const form_data = new FormData(document.getElementById("PUB_A"));
 
 			fetch(url, {
 				method : "POST",
@@ -1460,9 +1462,9 @@
 									   <TMPL_LOOP fibenistable_row_info>
 									   	 
 										<tr> 
-											<TMPL_IF is_index> <td id="ftindex" data-ft-type="ftindex"><span id="index_<TMPL_VAR __counter__>"> <TMPL_VAR __COUNTER__><span></td> 
+											<TMPL_IF is_index> <td  data-ft-type="ftindex"><span id="index_<TMPL_VAR __counter__>"> <TMPL_VAR __COUNTER__><span></td> 
 											<TMPL_ELSE>
-												<td id="ftindex" data-ft-type="ftindex">&nbsp; 
+												<td  data-ft-type="ftindex">&nbsp; 
 													
 													<!-- col header ---->
 													<TMPL_IF is_first_row>
@@ -1473,9 +1475,11 @@
 											<TMPL_LOOP  fibenistable_cell_info>
 											
 											 <TMPL_IF is_text>
-												<td data-ft-type="fttext" data-eid="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"  width="<TMPL_VAR WIDTH>">
-												
-												<input    onkeyup="JavaScript:<TMPL_IF KEY_UP_ADDON><TMPL_VAR KEY_UP_ADDON>;</TMPL_IF>getfibenisTableData(this,<TMPL_VAR field_id>,'<TMPL_VAR is_update_route_point>','<TMPL_VAR route_url>');<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);" name="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>" id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"  <TMPL_VAR input_html>
+												<td data-ft-type="fttext"  data-ft-col="<TMPL_VAR col_counter>" data-eid="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"  width="<TMPL_VAR WIDTH>">
+													
+												<input    onkeyup="JavaScript:<TMPL_IF KEY_UP_ADDON><TMPL_VAR KEY_UP_ADDON>;</TMPL_IF>getfibenisTableData(this,<TMPL_VAR field_id>,'<TMPL_VAR is_update_route_point>','<TMPL_VAR route_url>');<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);"
+													 
+													id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"  <TMPL_VAR input_html>
 													<TMPL_IF IS_INTEGER>
 														onkeypress  = "return PR_All_Numeric(event,'<TMPL_VAR SPECIAL_IN>',this);"
 														type="number"
@@ -1505,11 +1509,11 @@
 												
 												</TMPL_IF>
 												<TMPL_IF is_dropdown>
-													<td  data-ft-type="ftdropdown" 
+													<td  data-ft-type="ftdropdown" data-ft-col="<TMPL_VAR col_counter>"
 													data-eid="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"
 													width="<TMPL_VAR WIDTH>">
 													
-													 <select   onchange="JavaScript:<TMPL_IF KEY_UP_ADDON><TMPL_VAR KEY_UP_ADDON>;</TMPL_IF>getfibenisTableData(this,<TMPL_VAR field_id>);<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);" name="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>" id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>" data-container="body" <TMPL_VAR input_html> >
+													 <select   onchange="JavaScript:<TMPL_IF KEY_UP_ADDON><TMPL_VAR KEY_UP_ADDON>;</TMPL_IF>getfibenisTableData(this,<TMPL_VAR field_id>);<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);" id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>" data-container="body" <TMPL_VAR input_html> >
 													 		<TMPL_IF is_default_value> <option value="0"> Select</option></TMPL_IF>
 															<TMPL_VAR select_data>
 													</select> 
@@ -1523,10 +1527,10 @@
 												</TMPL_IF>
 												
 												<TMPL_IF is_multiple_select>
-													<td  data-ft-type="ftMultipledropdown" 
+													<td  data-ft-type="ftMultipledropdown" data-ft-col="<TMPL_VAR col_counter>"
 													data-eid="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"													
 													width="<TMPL_VAR WIDTH>">
-													<select  name="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>" id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"  class="selectpicker" multiple="true" multiple data-done-button="true"  onchange="JavaScript:ft_selectbox_capture_selected_value(this);getfibenisTableData(this,<TMPL_VAR field_id>);<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);"
+													<select  id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"  class="selectpicker" multiple="true" multiple data-done-button="true"  onchange="JavaScript:ft_selectbox_capture_selected_value(this);getfibenisTableData(this,<TMPL_VAR field_id>);<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);"
 													<TMPL_VAR input_html>>
 														<TMPL_VAR select_data>
 													  </select>
@@ -1542,11 +1546,11 @@
 													
 												
 												<TMPL_IF is_date>
-													<td   data-ft-type="ftdate" 
+													<td   data-ft-type="ftdate" data-ft-col="<TMPL_VAR col_counter>"
 													data-eid="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"
 													width="<TMPL_VAR WIDTH>">
 														
-														<input   type="date" data-date="" data-date-format="DD MMMM YYYY"   name="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>" id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"     onchange="JavaScript:getfibenisTableData(this,<TMPL_VAR field_id>);<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);<TMPL_IF CHANGE_ADDON><TMPL_VAR CHANGE_ADDON>;</TMPL_IF>" <TMPL_VAR input_html>  />
+														<input   type="date" data-date="" data-date-format="DD MMMM YYYY"   id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"     onchange="JavaScript:getfibenisTableData(this,<TMPL_VAR field_id>);<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);<TMPL_IF CHANGE_ADDON><TMPL_VAR CHANGE_ADDON>;</TMPL_IF>" <TMPL_VAR input_html>  />
 														
 														<!-- col header ---->
 													<TMPL_IF is_first_row>
@@ -1560,14 +1564,15 @@
 												
 											   
 											    <TMPL_IF is_autocomplete>
-													<td   data-ft-type="ftautocomplete" 
+													<td   data-ft-type="ftautocomplete"  data-ft-col="<TMPL_VAR col_counter>"
 													data-eid="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"
 													width="<TMPL_VAR WIDTH>">
 													
-													<input type="text"  name="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>" id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>" 	onkeyup="JavaScript:ac_get_items(this,G.$('ft_col_<TMPL_VAR col_counter>_<TMPL_VAR field_id>'));getfibenisTableData(this,<TMPL_VAR field_id>);<TMPL_IF entry_new_row> <TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);</TMPL_IF>" <TMPL_IF add_new_entry><TMPL_ELSE> onfocusout="JavaScript:ac_is_item_there(this,G.$('ft_col_<TMPL_VAR col_counter>_<TMPL_VAR field_id>'));" </TMPL_IF><TMPL_VAR input_html> />
+													<input type="text" 
+													 id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>" 	onkeyup="JavaScript:ac_get_items(this,G.$('ft_col_<TMPL_VAR col_counter>_<TMPL_VAR field_id>'));getfibenisTableData(this,<TMPL_VAR field_id>);<TMPL_IF entry_new_row> <TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);</TMPL_IF>" <TMPL_IF add_new_entry><TMPL_ELSE> onfocusout="JavaScript:ac_is_item_there(this,G.$('ft_col_<TMPL_VAR col_counter>_<TMPL_VAR field_id>'));" </TMPL_IF><TMPL_VAR input_html> />
 											
 											<input  type="hidden" 
-											        name="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>_hidden" 
+											       
 													id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>_hidden" />
 												
 													<!-- col header ---->
@@ -1580,7 +1585,7 @@
 											   </TMPL_IF>
 											   
 											<TMPL_IF is_label_value>
-												<td   	data-ft-type="ftlabelvalue" 
+												<td   	data-ft-type="ftlabelvalue" data-ft-col="<TMPL_VAR col_counter>"
 													  	data-eid="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"
 														width="<TMPL_VAR WIDTH>">
 
@@ -1592,7 +1597,7 @@
 													</TMPL_IF>	
 												
 													<input    onkeyup="JavaScript:<TMPL_IF KEY_UP_ADDON><TMPL_VAR KEY_UP_ADDON>;</TMPL_IF>getfibenisTableData(this,<TMPL_VAR field_id>,'<TMPL_VAR is_update_route_point>','<TMPL_VAR route_url>');<TMPL_VAR entry_new_row>(this,<TMPL_VAR field_id>,<TMPL_VAR max_no_rows>);" 
-																name="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"
+																
 																id="<TMPL_VAR row_counter>_ft_<TMPL_VAR col_counter>_<TMPL_VAR field_id>"  
 																<TMPL_VAR input_html>
 																data-ft-value=""	
@@ -1603,7 +1608,7 @@
 											   
 											   <!-- last col number ---->
 												<TMPL_IF __last__>
-													<input type="hidden" name="ft_last_col_no_<TMPL_VAR field_id>" id="ft_last_col_no_<TMPL_VAR field_id>" value="<TMPL_VAR __counter__>" >
+													<input type="hidden" id="ft_last_col_no_<TMPL_VAR field_id>" value="<TMPL_VAR __counter__>" >
 												</TMPL_IF>
 												
 												
@@ -1624,10 +1629,10 @@
 									
 									<!-- last row number ---->
 									<!-- for support old version-->		
-									<input type="hidden" name="ft_last_row_no_<TMPL_VAR field_id>" 
+									<input type="hidden" 
 														 id="ft_last_row_no_<TMPL_VAR field_id>" >
 													
-									<input type="hidden" name="ft_rows_length_<TMPL_VAR field_id>" 
+									<input type="hidden"
 														 id="ft_rows_length_<TMPL_VAR field_id>" >		
 									
 									<script>
