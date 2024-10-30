@@ -1082,6 +1082,8 @@
 												$temp['pattern']   = $lv['allow_matches'][3];
 												$temp['special_in'] = (@$lv['allow_matches'][5])?@$lv['allow_matches'][5]:'';										
 										}
+
+										$temp['is_format'] = (!$temp['is_mandatory'])?1:0;
 								}
 								
 								#print_r($lv['allow_matches']);
