@@ -1,6 +1,19 @@
-	<script language="javascript" type="text/javascript"  src="<TMPL_VAR LIB_PATH>/js/d_series.js?v=5.0"></script>
+	<link href="<TMPL_VAR LIB_PATH>/css/dashboard.css" rel="stylesheet">
+	<link href="<TMPL_VAR LIB_PATH>/comp/billboard/billboard.css" rel="stylesheet">
+	<script language="JavaScript" type="text/javascript" src="<TMPL_VAR LIB_PATH>/comp/d3/d3.v6.js"></script>
+	<script language="JavaScript" type="text/javascript" src="lib/v_01//comp/c3/c3.min.js"></script>  
+	<script language="JavaScript" type="text/javascript" src="<TMPL_VAR LIB_PATH>/comp/billboard/billboard.min.js"></script> 	
+	
+	<script language="javascript" type="text/javascript"  src="<TMPL_VAR LIB_PATH>/js/d_series.js?v=5.1"></script>
 	<script language="JavaScript" type="text/javascript" src="<TMPL_VAR lib_path>js/waiting_list.js"></script>
-	<script language="JavaScript" type="text/javascript" src="<TMPL_VAR lib_path>js/general.c3001.js"></script>
+	<script language="JavaScript" type="text/javascript" src="<TMPL_VAR lib_path>js/general.c3001.js?v=5.1"></script>
+
+	<script language="JavaScript" type="text/javascript" src="<TMPL_VAR LIB_PATH>/js/gauge.js"></script>
+
+		
+                    
+       	 
+
 	<link rel="stylesheet" href="<TMPL_VAR LIB_PATH>/css/d_series.css">
 	
 		<TMPL_IF LAYOUT>
@@ -652,7 +665,10 @@
 			d_series.setBulkActionArea({'rows':Number(G.$('pager_records').dataset.pager)});
 
 			// set filter area height
-			d_series.setFilterAreaHeight();
+			if(d_series.g.isElementThere('fbn_d_fltr_area')){
+				d_series.setFilterAreaHeight();
+			}
+			
 							
 		}); // preload 
 			
