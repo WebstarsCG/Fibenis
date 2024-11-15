@@ -466,12 +466,15 @@
 												
 												<TMPL_IF min_date>
 												  minDate: "<TMPL_VAR min_date>",
-												  maxDate: "<TMPL_VAR max_date>",
 												</TMPL_IF>
 												
+												<TMPL_IF max_date>
+												  maxDate: "<TMPL_VAR max_date>",
+												</TMPL_IF>
+
 												<TMPL_IF year_range>
 													yearRange :"<TMPL_VAR year_range>",
-												</TMPL_IF>	
+												</TMPL_IF>
 												
 												<TMPL_IF default_date>
 												  defaultDate: "<TMPL_VAR default_date>",

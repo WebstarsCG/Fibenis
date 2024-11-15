@@ -1,15 +1,17 @@
 	<?php
 
 	//$year = date("Y");
-
 	function f_addon($param){
 		
 		$lv = [];
-		
+
+		$default = (object) [ 'min_date'=>'-1Y','max_date'=>'1Y',
+							  'min_year'=>1,    'max_year'=>1
+							];
+
 		# addon
 		if(@$param['default_addon']){
-			
-			
+						
 				// lockfile
 				$lv['lock_file']	= $param['coach']['terminal_path']."/cache/$param[page_code].inc";
 							
@@ -427,9 +429,6 @@
 																							   'field_id'=>'exa_value',
 																							   
 																							   'type'=>'date',
-																							   
-													   'set'  => array('min_date'=>'-75Y',
-															   'max_date'=>'+0D'),
 													   
 													   'child_table'         => 'exav_addon_'.$temp_input_to_table[$get_row->exa_type]['table'],      // child table 
 																							   
@@ -439,9 +438,7 @@
 																							   
 																							   'child_attr_code'     => $get_row->token,           // attribute code
 																							   
-																							   'year_range'	     => '1950:'.$year.'',
-													   
-													   //'year_range'	     => '2020:2050',
+																							 
 													   
 													   'is_mandatory'	     => 0,
 																							   
@@ -882,49 +879,50 @@
 									//print_r($temp_input);
 									
 								}
-								if(($get_row->min_date_attr!=null)||($get_row->max_date_attr!=null)){
+
+
+								//var_dump($get_row);
+
+								if(@$_GET['is_debug']==1){
+
+									print_r($get_row->min_date_attr);
+									echo "L:".strlen($get_row->min_date_attr);
+								}
+
+								// date check
+								if((!$get_row->min_date_attr) || (!$get_row->max_date_attr)){
 									
-									if($get_row->min_date_attr==null){
-									
-										$get_row->min_date_attr = '-75Y'; 
-									
+									if(!$get_row->min_date_attr && !$get_row->min_year_date){									
+										$get_row->min_date_attr = $default->min_date; 									
 									}
 									
-									if($get_row->max_date_attr==null){
-											
-											$get_row->min_date_attr = '180D';
+									if(!$get_row->max_date_attr && !$get_row->max_year_date){											
+										$get_row->max_date_attr = $default->max_date; 
 									}
 									
 									unset($temp_input['set']);
 									
 									$temp_input['set'] = array('min_date'=>$get_row->min_date_attr,
-												   'max_date'=>$get_row->max_date_attr);
-									
+												   			   'max_date'=>$get_row->max_date_attr);
 								}
 								
 								
-								if(($get_row->min_year_date!=null) || ($get_row->max_year_date!=null)){
-									
-									if($get_row->min_year_date==null){
-									
-										$get_row->min_year_date = ($year-75); 
-									
-									}
-									
-									if($get_row->max_year_date==null){
-											
-											$year = date("Y");
-											
-											$get_row->max_year_date = ($year+1);
-											
-									}
-									
-									$range = "'".$get_row->min_year_date.":".$get_row->max_year_date."'";
-									
+								if((!$get_row->min_year_date) && 
+								    (!$get_row->max_year_date) ){
 									unset($temp_input['year_range']);
+								}else{
 									
-									$temp_input['year_range'] = ''.$get_row->min_year_date.':'.$get_row->max_year_date.'';
+									$year = date("Y");
+									if(!$get_row->min_year_date && !$get_row->min_date_attr){
+										$get_row->min_year_date = ($year-$default->min_year);
+									}
 									
+									if(!$get_row->max_year_date && !$get_row->max_date_attr){
+										$get_row->max_year_date = ($year+$default->max_year);
+									}
+																		
+									unset($temp_input['year_range']);									
+									$temp_input['year_range'] = "$get_row->min_year_date:$get_row->max_year_date";									
 								}
 								
 								
