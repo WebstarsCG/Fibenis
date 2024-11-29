@@ -126,6 +126,8 @@
 				# update
 			
 				if(@$_POST['UPDATE']){
+
+						$message_axn 	= isset($_POST['SAVE'])?'Saved':'Updated'; 
 				
 						$has_fields		=  update_data(array('data_def'   	  =>$F_SERIES['data'],
 											  'table_name' 	  =>$F_SERIES['table_name'],
@@ -154,6 +156,8 @@
 						} // end
 				
 				}else{ 			 
+
+						$message_axn     = 'Added';
 						
 						$row_id  =	insert_data(array('data_def'   	  =>$F_SERIES['data'],
 										  'table_name' 	  =>$F_SERIES['table_name'],
@@ -216,7 +220,9 @@
 														];
 							}else{
 									
-									$custom_message  = @$F_SERIES['message'] ?? '';  	
+									$custom_message  = @$F_SERIES['message'] ?? '';  
+									
+									
 												
 									if(strlen(@$custom_message)>0 && $row_id){
 										
@@ -226,13 +232,13 @@
 										$dip_message 	= $message_row ->message;										
 										#$F_MESSAGE 		= 'block_pass:<b>'.$dip_message.'</b> Successfully Added.';
 										$F_MESSAGE		= ['status'=>'pass',
-														   'message'=>'<b>'.$dip_message.'</b> Successfully Added.'];
+														   'message'=>'<b>'.$dip_message.'</b> Successfully '.$message_axn];
 									}
 									else if(isset($F_SERIES['prime_index'])){
 										//$F_MESSAGE 		=  'block_pass:<b>'.@$_POST['X'.$F_SERIES['prime_index']].'</b> Successfully
 										//Added';
 										$F_MESSAGE		= ['status'=>'pass',
-														   'message'=>'<b>'.@$_POST['X'.$F_SERIES['prime_index']].'</b> Successfully Added.'];
+														   'message'=>'<b>'.@$_POST['X'.$F_SERIES['prime_index']].'</b> Successfully '.$message_axn];
 									}								
 							} //end
 						} // end
