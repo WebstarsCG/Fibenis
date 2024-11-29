@@ -82,11 +82,17 @@
 		function validate_submit(){
 			
 			var refill_elements=new Array();
+					
+			// given url as form action url
+			const url       = "<TMPL_VAR F_SERIES_QUERY_VAR>";
+			const form_id = "PUB_A";
 			
 			if ((document.activeElement.id=='SAVE') && (G.$('UPDATE').value.length>0)) {
 				
 				// no checl
 				G.showLoader('Sending your request..');
+				form_submit(url,form_id);
+				return false;	
 				
 			}else{
 				<TMPL_IF GX>
@@ -106,12 +112,6 @@
 					return false;
 				      
 				}else{
-					
-					
-					
-					// given url as form action url
-					const url       = "<TMPL_VAR F_SERIES_QUERY_VAR>";
-                    const form_id = "PUB_A";
 					
 
 					<TMPL_IF ASK_ONCE>
