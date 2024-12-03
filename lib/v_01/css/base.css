@@ -2,6 +2,12 @@
 
 /*text alignment css start*/
 
+	
+	.action_on_all_tab .value {
+		text-align: center !important;
+		width: 100% !important;
+	}
+
 	.align_LM{
 		text-align		: left	!important;
 	}

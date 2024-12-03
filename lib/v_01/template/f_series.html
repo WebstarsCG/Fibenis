@@ -1915,8 +1915,14 @@
 				<TMPL_IF DIVIDER>
 					<TMPL_IF IS_DIVIDER_TAB>
 						<script>
+							<TMPL_IF IS_ACTION_AT_LAST_TAB>
 								G.$('tab_action_area').innerHTML=G.$('action_area').innerHTML;
 								G.$('action_area').style.display='none';
+							<TMPL_ELSE>
+								G.$('tab_action_area').remove();
+								G.$('action_area').classList.add('action_on_all_tab');
+								G.$('action_area').classList.remove('row');
+							</TMPL_IF>
 						</script>
 					</TMPL_IF>
 				</TMPL_IF>

@@ -424,6 +424,8 @@
 			$T->AddParam('user_role',@$USER_ROLE);
 			
 			$T->AddParam('is_custom_button',@$F_SERIES['is_custom_button']);
+
+			$T->AddParam('is_action_at_last_tab',@$F_SERIES['is_action_at_last_tab']);
 			
 			$T->AddParam('is_title',@$F_SERIES['is_title']);
 			
