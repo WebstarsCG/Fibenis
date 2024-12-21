@@ -427,6 +427,29 @@
 			
 		} // add user
 
+		//set new user
+		function setNewUser($param){
+
+			global $rdsql;
+			$lv=[];
+
+			// is_mail_active
+			$lv['is_mail_active'] = (array_key_exists('is_mail_active',$param)?$param['is_mail_active']:1);
+			# insert user info
+			$lv['user_info_query']= "INSERT INTO
+										 user_info(password,user_role_id,is_internal,is_mail_check,is_active,user_id)
+										 VALUES
+										 ('$param[password]',(SELECT id FROM user_role WHERE sn='$param[user_role_code]'),$param[co_ec_id],
+										 $lv[is_mail_active],1,$param[curr_user_id])";
+							
+						
+			$lv['user_info_result'] =$rdsql->exec_query($lv['user_info_query'],'User Info');
+						
+			$lv['user_info_id']     = $rdsql->last_insert_id('user_info');
+
+			return $lv['user_info_id'];
+
+		}//end
 
 		
 		//camelCase
