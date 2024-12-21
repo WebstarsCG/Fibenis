@@ -1112,6 +1112,17 @@
 		public function getPostByToken($token){
 			return $_POST[$this->getFieldKey($token)];
 		}
+
+		public function setValueForPostByToken($token,$value){
+			
+			if(@$this->getFieldKey($token)){
+				$_POST[$this->getFieldKey($token)]= $value;
+				return true;
+			}else{
+				return false;
+			}
+		
+		}
 				
 		public function resetDataMap(){
 
