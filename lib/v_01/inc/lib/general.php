@@ -2254,6 +2254,49 @@ function setEKV($entity_code,$key,$val){
 
 	} // end
 
+
+	function ecTransCountInsert($param){
+		$lv = (object)['ec_trans_count_ins_query'=>''];
+
+
+		$lv->ec_trans_count_ins_query = "INSERT INTO 
+		                                  entity_child_trans_count(trans_token,parent_id,trans_entity_code,trans_id,current_value,user_id)
+										Values ".implode(',',($param));   
+		
+		if(@$param['show_query']==1){
+				print_r($lv->ec_trans_count_ins_query);
+		}
+ 			$this->rdsql->exec_query($lv->ec_trans_count_ins_query,"Error in transaction".$lv->ec_trans_count_ins_query);
+			
+	 }//end
+ 
+     function ecTransCountAdd($param){
+
+		$lv = (object)['trans_count_add_values'=>[]];
+		array_push($lv->trans_count_add_values,
+													
+														"('$param[trans_token]NETG','$param[parent_id]','$param[trans_entity_code]','$param[trans_id]','$param[cv]','$param[user_id]')",
+														"('$param[trans_token]NETX','$param[parent_id]','$param[trans_entity_code]','$param[trans_id]','$param[cv]','$param[user_id]')"
+														
+												);
+				$this->ecTransCountInsert($lv->trans_count_add_values);
+		
+	}//end
+	
+	function ecTransCountReduce($param){
+	
+		$lv = (object)['trans_count_reduce_values'=>[]];
+		array_push($lv->trans_count_reduce_values,
+														
+															"('$param[trans_token]NETR','$param[parent_id]','$param[trans_entity_code]','$param[trans_id]','$param[cv]','$param[user_id]')",
+															"('$param[trans_token]NETX','$param[parent_id]','$param[trans_entity_code]','$param[trans_id]','$param[cv]','$param[user_id]')"
+														
+													);
+				$this->ecTransCountInsert($lv->trans_count_reduce_values);
+		
+	}//end
+	
+
 } // end of class
     
 include(dirname(__FILE__)."/status.php");
@@ -2262,6 +2305,6 @@ include(dirname(__FILE__)."/status.php");
 // 18-Jul-2015 general.php table_no_rows->defined
 ////////////////////////////////////////////////////////////////////////
     
-          
 
+//
 ?>
