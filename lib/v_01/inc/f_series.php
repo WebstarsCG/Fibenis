@@ -227,6 +227,11 @@
 									if(strlen(@$custom_message)>0 && $row_id){
 										
 										$select_message = " SELECT $custom_message as message FROM $F_SERIES[table_name] WHERE $F_SERIES[key_id]=$row_id";										
+
+										if(@$F_SERIES['show_query']){
+											echo "Message Query:".$select_message;
+										}	
+
 										$exe_message 	= $rdsql->exec_query($select_message,' ADD message Error!');										
 										$message_row  	= $rdsql->data_fetch_object($exe_message);										
 										$dip_message 	= $message_row ->message;										
